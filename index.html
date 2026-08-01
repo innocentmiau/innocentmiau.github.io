@@ -3,111 +3,86 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>André Leandro — Game Dev Tools & Pipeline Programmer</title>
-<meta name="description" content="Portfolio of André Leandro (innocentmiau): editor scripts, shaders, and asset pipeline tools for Unity and Blender.">
+<title>André Leandro — Game Developer</title>
+<meta name="description" content="André Leandro (innocentmiau): independent game developer and Unity tools programmer.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <header class="site-header">
-    <span class="logo">innocentmiau</span>
-    <nav>
-      <a href="#work">work</a>
-      <a href="#stack">stack</a>
-      <a href="#contact">contact</a>
-    </nav>
-  </header>
+<div class="starfield" aria-hidden="true"></div>
 
-  <main>
-    <section class="hero">
-      <p class="eyebrow">// pipeline &amp; tools programmer</p>
-      <h1>I build the tools<br>between the idea<br>and the game.</h1>
-      <p class="hero-sub">Editor scripts, shaders, and asset systems for Unity and Blender — the unglamorous stuff that makes everything else possible.</p>
-      <div class="hero-links">
-        <a class="btn btn-primary" href="https://github.com/innocentmiau" target="_blank" rel="noopener">View GitHub</a>
-        <a class="btn" href="#contact">Get in touch</a>
-      </div>
-    </section>
+<header class="site-header">
+  <span class="logo">andré<span>leandro</span></span>
+  <nav>
+    <a href="index.html" class="active">Home</a>
+    <a href="games.html">Games</a>
+    <a href="unity-tools.html">Unity Tools</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
 
-    <section id="work" class="work">
-      <h2><span class="index">01</span> Selected work</h2>
+<main>
 
-      <div class="grid">
+  <section class="hero">
+    <p class="eyebrow">// independent game developer</p>
+    <h1>Building small worlds, one system at a time.</h1>
+    <p class="hero-sub">I'm André, an independent game developer focused mainly on programming — from gameplay systems to the tools and shaders that support them. I also dabble in 2D art and 3D modeling when a project needs it.</p>
+    <div class="hero-links">
+      <a class="btn btn-primary" href="games.html">See my games</a>
+      <a class="btn" href="unity-tools.html">Unity tools</a>
+    </div>
+  </section>
 
-        <article class="card">
-          <div class="thumb thumb-cube"><span class="thumb-icon">◆</span></div>
-          <h3>Blender-Script-JaD-Actors</h3>
-          <p>Exports actor locations, rotations, and metadata from Blender for use in custom game levels.</p>
-          <div class="tags"><span>Python</span><span>Blender API</span></div>
-          <a class="card-link" href="https://github.com/innocentmiau/Blender-Script-JaD-Actors" target="_blank" rel="noopener">View repo →</a>
-        </article>
+  <section class="section-border">
+    <h2><span style="color: var(--text-muted);">01</span> &nbsp;About</h2>
+    <p class="section-sub">A bit more background</p>
+    <p style="max-width: 620px; color: var(--text-secondary);">Most of my projects start as solo experiments meant to refine one specific mechanic, and some grow into full collaborative builds or game jam entries. Outside of shipping games themselves, I spend a lot of time on the tooling around them — editor scripts, asset pipelines, and shaders for Unity and Blender that make the next project faster to build.</p>
+  </section>
 
-        <article class="card">
-          <div class="thumb thumb-shader"><span class="thumb-icon">▦</span></div>
-          <h3>PixelateScreenShader</h3>
-          <p>A ShaderLab shader that transforms a 3D game view into clean, tunable pixel art in real time.</p>
-          <div class="tags"><span>ShaderLab</span><span>Unity</span></div>
-          <a class="card-link" href="https://github.com/innocentmiau/PixelateScreenShader" target="_blank" rel="noopener">View repo →</a>
-        </article>
+  <section class="section-border">
+    <h2><span style="color: var(--text-muted);">02</span> &nbsp;Favorite projects</h2>
+    <p class="section-sub">A few I'm proudest of — full list on the Games page</p>
 
-        <article class="card">
-          <div class="thumb thumb-folder"><span class="thumb-icon">▤</span></div>
-          <h3>AssetsManager</h3>
-          <p>Tracks, tags, and manages game assets across a project so nothing gets lost between departments.</p>
-          <div class="tags"><span>Python</span></div>
-          <a class="card-link" href="https://github.com/innocentmiau/AssetsManager" target="_blank" rel="noopener">View repo →</a>
-        </article>
+    <div class="grid">
+      <article class="card">
+        <h3>ColdRush</h3>
+        <p>You have 15 seconds to finish the race. Freeze the clock to buy more.</p>
+        <div class="badge-row"><span class="badge badge-play">Play in browser</span><span class="badge">Racing</span></div>
+        <a class="card-link" href="https://innocentmiau.itch.io/coldrush" target="_blank" rel="noopener">Play on itch.io →</a>
+      </article>
 
-        <article class="card">
-          <div class="thumb thumb-graph"><span class="thumb-icon">▥</span></div>
-          <h3>AssetsUsage</h3>
-          <p>Analyzes where and how often assets are referenced across a project, in C#.</p>
-          <div class="tags"><span>C#</span></div>
-          <a class="card-link" href="https://github.com/innocentmiau/AssetsUsage" target="_blank" rel="noopener">View repo →</a>
-        </article>
+      <article class="card">
+        <h3>Hyperlight</h3>
+        <p>A game jam entry — playable directly in the browser.</p>
+        <div class="badge-row"><span class="badge badge-play">Play in browser</span></div>
+        <a class="card-link" href="https://innocentmiau.itch.io/hyperlight" target="_blank" rel="noopener">Play on itch.io →</a>
+      </article>
 
-        <article class="card">
-          <div class="thumb thumb-build"><span class="thumb-icon">▧</span></div>
-          <h3>MultiPlatformBuilder</h3>
-          <p>Automates and coordinates multi-platform builds for Unity projects.</p>
-          <div class="tags"><span>C#</span></div>
-          <a class="card-link" href="https://github.com/innocentmiau/MultiPlatformBuilder" target="_blank" rel="noopener">View repo →</a>
-        </article>
+      <article class="card">
+        <h3>Verdant Rot</h3>
+        <p>Reclaim the earth by planting nature back into the planet.</p>
+        <div class="badge-row"><span class="badge">In development</span></div>
+        <a class="card-link" href="https://innocentmiau.itch.io/verdant-rot" target="_blank" rel="noopener">View on itch.io →</a>
+      </article>
+    </div>
+  </section>
 
-        <article class="card">
-          <div class="thumb thumb-rot"><span class="thumb-icon">▨</span></div>
-          <h3>Verdant-Rot</h3>
-          <p>An in-progress project — details coming soon.</p>
-          <div class="tags"><span>WIP</span></div>
-          <a class="card-link" href="https://github.com/innocentmiau/Verdant-Rot" target="_blank" rel="noopener">View repo →</a>
-        </article>
+  <section>
+    <h2><span style="color: var(--text-muted);">03</span> &nbsp;Also building</h2>
+    <p class="section-sub">Tools and shaders for other developers</p>
+    <p style="max-width: 620px; color: var(--text-secondary); margin-bottom: 1.5rem;">Alongside my own games, I maintain a set of Unity packages and shaders — asset managers, build automation, and a real-time pixelation shader. All open on GitHub.</p>
+    <a class="btn" href="unity-tools.html">Browse Unity tools →</a>
+  </section>
 
-      </div>
-    </section>
+</main>
 
-    <section id="stack" class="stack">
-      <h2><span class="index">02</span> Stack</h2>
-      <ul class="stack-list">
-        <li><span class="stack-name">C#</span><span class="stack-role">Unity tooling &amp; editor scripts</span></li>
-        <li><span class="stack-name">Python</span><span class="stack-role">pipeline &amp; automation scripts</span></li>
-        <li><span class="stack-name">ShaderLab</span><span class="stack-role">screen &amp; surface shaders</span></li>
-        <li><span class="stack-name">Blender API</span><span class="stack-role">export &amp; asset scripting</span></li>
-      </ul>
-    </section>
+<footer>
+  <p>André Leandro — built with plain HTML &amp; CSS, hosted on GitHub Pages.</p>
+</footer>
 
-    <section id="contact" class="contact">
-      <h2><span class="index">03</span> Contact</h2>
-      <p>Open to collaborating on tooling for Unity or Blender pipelines.</p>
-      <a class="btn btn-primary" href="https://github.com/innocentmiau" target="_blank" rel="noopener">github.com/innocentmiau</a>
-    </section>
-  </main>
-
-  <footer>
-    <p>Built by André Leandro, hosted on GitHub Pages.</p>
-  </footer>
-
+<script src="script.js"></script>
 </body>
 </html>
