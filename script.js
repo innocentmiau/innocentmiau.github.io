@@ -567,6 +567,99 @@
     window.decorateBadges(mount);
   }
 
+  /* The full feed with a year / month picker on top. Without it the page is
+     one long scroll of everything ever shipped. Opens on the current year,
+     falling back to the most recent year that actually has entries. */
+  function renderFeedPage(mount, entries) {
+    var years = {};
+    entries.forEach(function (e) {
+      var p = parts(e.date);
+      if (!p) return;
+      var y = years[p.y] || (years[p.y] = { total: 0, months: {} });
+      y.total++;
+      y.months[p.m] = (y.months[p.m] || 0) + 1;
+    });
+
+    var yearList = Object.keys(years).map(Number).sort(function (a, b) { return b - a; });
+    if (!yearList.length) {
+      mount.innerHTML = '<p class="section-sub">Nothing posted yet.</p>';
+      return;
+    }
+
+    var thisYear = new Date().getFullYear();
+    var selYear = years[thisYear] ? thisYear : yearList[0];
+    var selMonth = null; // null means the whole year
+
+    mount.innerHTML = '';
+    var cal = document.createElement('div');
+    cal.className = 'cal';
+    var body = document.createElement('div');
+    mount.appendChild(cal);
+    mount.appendChild(body);
+
+    function matches(e) {
+      var p = parts(e.date);
+      if (selYear === 'all') return true;
+      if (!p || p.y !== selYear) return false;
+      return selMonth === null || p.m === selMonth;
+    }
+
+    function pill(label, attr, value, active, count, disabled) {
+      return '<button type="button" class="cal-btn" ' + attr + '="' + value + '"' +
+        ' aria-pressed="' + (active ? 'true' : 'false') + '"' +
+        (disabled ? ' disabled' : '') + '>' + label +
+        (count ? '<span class="cal-count">' + count + '</span>' : '') + '</button>';
+    }
+
+    function draw() {
+      var html = '<div class="cal-row"><span class="cal-label">Year</span>';
+      yearList.forEach(function (y) {
+        html += pill(y, 'data-year', y, selYear === y, years[y].total, false);
+      });
+      html += pill('All', 'data-year', 'all', selYear === 'all', entries.length, false);
+      html += '</div>';
+
+      if (selYear !== 'all') {
+        html += '<div class="cal-row"><span class="cal-label">Month</span>';
+        html += pill('All', 'data-month', 'all', selMonth === null, 0, false);
+        for (var m = 0; m < 12; m++) {
+          var n = years[selYear].months[m] || 0;
+          // Months with nothing in them stay visible but unclickable, so the
+          // row reads as a calendar rather than a shifting list of links.
+          html += pill(SHORT[m], 'data-month', m, selMonth === m, n, n === 0);
+        }
+        html += '</div>';
+      }
+      cal.innerHTML = html;
+
+      var shown = entries.filter(matches);
+      renderFeed(body, shown);
+
+      var where = selYear === 'all' ? 'in total'
+        : selMonth === null ? 'in ' + selYear
+        : 'in ' + MONTHS[selMonth] + ' ' + selYear;
+      body.insertAdjacentHTML('afterbegin',
+        '<p class="cal-summary">' + shown.length +
+        (shown.length === 1 ? ' entry ' : ' entries ') + where + '</p>');
+    }
+
+    cal.addEventListener('click', function (e) {
+      var b = e.target.closest('button[data-year], button[data-month]');
+      if (!b || b.disabled) return;
+      if (b.hasAttribute('data-year')) {
+        var y = b.getAttribute('data-year');
+        selYear = y === 'all' ? 'all' : parseInt(y, 10);
+        selMonth = null; // a month from the old year would make no sense here
+      } else {
+        var m = b.getAttribute('data-month');
+        selMonth = m === 'all' ? null : parseInt(m, 10);
+      }
+      draw();
+    });
+
+    draw();
+  }
+
   fetch('news.json', { cache: 'no-cache' })
     .then(function (r) {
       if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -585,7 +678,7 @@
         if (!slice.length) {
           mount.innerHTML = '<p class="section-sub">Nothing posted yet.</p>';
         } else if (mount.getAttribute('data-news') === 'feed') {
-          renderFeed(mount, slice);
+          renderFeedPage(mount, slice);
         } else {
           renderCards(mount, slice);
         }

@@ -1011,3 +1011,65 @@ a:focus-visible, .btn:focus-visible {
 }
 
 .tag-icon svg.icon-solid { fill: currentColor; stroke: none; }
+
+/* ---------- news year / month picker ---------- */
+
+.cal { margin-bottom: 1.6rem; }
+
+.cal-row { display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; }
+.cal-row + .cal-row { margin-top: 0.55rem; }
+
+.cal-label {
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  width: 3.2rem;
+  flex: 0 0 auto;
+}
+
+.cal-btn {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  font-family: var(--font-display);
+  font-size: 0.76rem;
+  letter-spacing: 0.02em;
+  padding: 0.32rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.cal-btn:hover:not([disabled]) {
+  color: var(--text-primary);
+  border-color: var(--accent-dim);
+  background: var(--surface-hover);
+}
+
+.cal-btn[aria-pressed="true"] {
+  color: var(--accent);
+  border-color: var(--accent-dim);
+  background: var(--surface-hover);
+}
+
+/* Empty months stay in place so the row keeps a calendar's shape. */
+.cal-btn[disabled] {
+  opacity: 0.32;
+  cursor: default;
+  background: none;
+}
+
+.cal-count { font-size: 0.62rem; color: var(--text-muted); }
+.cal-btn[aria-pressed="true"] .cal-count { color: var(--accent); }
+
+.cal-summary { color: var(--text-muted); font-size: 0.8rem; margin: 0 0 1.4rem; }
+
+@media (max-width: 600px) {
+  .cal-label { width: 100%; margin-bottom: 0.1rem; }
+  .cal-btn { padding: 0.3rem 0.6rem; font-size: 0.72rem; }
+}
