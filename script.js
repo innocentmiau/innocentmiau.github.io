@@ -40,7 +40,11 @@
     clouds.className = 'planet-clouds';
     clouds.style.animationDuration = Math.round(p.spin / 2.4) + 's';
 
+    var ice = document.createElement('div');
+    ice.className = 'planet-ice';
+
     globe.appendChild(land);
+    globe.appendChild(ice);
     globe.appendChild(clouds);
 
     var shade = document.createElement('div');
@@ -63,10 +67,12 @@
     big.style.top = (4 + Math.random() * 92) + '%';
     big.style.setProperty('--sb', (2 + Math.random() * 2.4).toFixed(2) + 'px');
     if (!reduceMotion) {
+      var blo = 0.45 + Math.random() * 0.2;
+      var bhi = 0.85 + Math.random() * 0.15;
       big.style.setProperty('--dur', (5 + Math.random() * 6) + 's');
       big.style.setProperty('--delay', (Math.random() * 6) + 's');
-      big.style.setProperty('--min-o', (0.45 + Math.random() * 0.2).toFixed(2));
-      big.style.setProperty('--max-o', (0.85 + Math.random() * 0.15).toFixed(2));
+      big.style.setProperty('--min-o', blo.toFixed(3));
+      big.style.setProperty('--amp', (bhi - blo).toFixed(3));
     } else {
       big.style.animation = 'none';
       big.style.opacity = 0.75;
@@ -85,10 +91,14 @@
     star.style.top = Math.random() * 100 + '%';
 
     if (!reduceMotion) {
+      // --amp is the swing above --min-o; the keyframes ride a cosine between
+      // the two, so a star dims to its floor rather than blinking out.
+      var lo = 0.1 + Math.random() * 0.12;
+      var hi = 0.72 + Math.random() * 0.28;
       star.style.setProperty('--dur', (3 + Math.random() * 5) + 's');
       star.style.setProperty('--delay', (Math.random() * 5) + 's');
-      star.style.setProperty('--min-o', (0.1 + Math.random() * 0.2).toFixed(2));
-      star.style.setProperty('--max-o', (0.6 + Math.random() * 0.4).toFixed(2));
+      star.style.setProperty('--min-o', lo.toFixed(3));
+      star.style.setProperty('--amp', (hi - lo).toFixed(3));
     } else {
       star.style.opacity = 0.4 + Math.random() * 0.3;
     }

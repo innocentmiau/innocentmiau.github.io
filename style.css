@@ -113,8 +113,11 @@ a { color: inherit; text-decoration: none; }
 
 /* ---------- planets ---------- */
 
+/* Above the stars: a star drawn over a planet's disc reads as wrong, since
+   the planet is the nearer body. */
 .planet {
   position: absolute;
+  z-index: 2;
   border-radius: 50%;
   transform: translate(-50%, -50%);
   box-shadow: 0 0 2.4em rgba(130, 165, 255, 0.16);
@@ -150,11 +153,17 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* Surface layer 2: land, thresholded out of the noise so it meets the ocean
-   at a coastline instead of fading into it. */
+   at a coastline instead of fading into it.
+   A low baseFrequency sets continent-scale landmasses, and the six octaves
+   put the fine detail only in the coastlines. High frequency here is what
+   produced scattered islands instead of continents.
+   Colour bands run by latitude: tundra, forest, jungle, desert. */
 .planet-land {
-  background: linear-gradient(150deg, #4e7a45 0%, #5f7f42 34%, #7d7147 66%, #5a5f42 100%);
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='4' seed='9' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='8' intercept='-4.5'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='4' seed='9' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='8' intercept='-4.5'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background: linear-gradient(to bottom,
+    #6f6f58 0%, #55704a 12%, #3f6b3c 27%, #37743c 44%,
+    #5d7842 58%, #8a7c4e 74%, #7d7357 88%, #6c6b5a 100%);
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.01' numOctaves='6' seed='9' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='18' intercept='-9.9'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.01' numOctaves='6' seed='9' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='18' intercept='-9.9'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 /* Layer 3: cloud deck on its own noise, softer edged and faster moving. */
@@ -163,6 +172,15 @@ a { color: inherit; text-decoration: none; }
   -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.02' numOctaves='5' seed='27' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='4' intercept='-2.35'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.02' numOctaves='5' seed='27' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='4' intercept='-2.35'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   opacity: 0.5;
+}
+
+/* Ice caps sit at fixed latitudes, so unlike the land they do not scroll. */
+.planet-ice {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom, rgba(232, 244, 255, 0.85) 0%, rgba(228, 240, 255, 0.4) 5%, rgba(226, 238, 255, 0.12) 9%, transparent 13%),
+    linear-gradient(to top, rgba(232, 244, 255, 0.8) 0%, rgba(228, 240, 255, 0.34) 4%, rgba(226, 238, 255, 0.1) 8%, transparent 12%);
 }
 
 @keyframes planet-spin {
@@ -197,13 +215,14 @@ a { color: inherit; text-decoration: none; }
 
 .star-bright {
   position: absolute;
+  z-index: 1;
   width: var(--sb);
   height: var(--sb);
   transform: translate(-50%, -50%);
   border-radius: 50%;
   background: radial-gradient(circle, #fff 0%, rgba(214, 234, 255, 0.95) 26%, rgba(150, 190, 255, 0.35) 58%, transparent 76%);
   box-shadow: 0 0 calc(var(--sb) * 3) calc(var(--sb) * 0.7) rgba(160, 200, 255, 0.45);
-  animation: twinkle var(--dur, 6s) ease-in-out infinite;
+  animation: twinkle var(--dur, 6s) linear infinite;
   animation-delay: var(--delay, 0s);
 }
 
@@ -250,15 +269,23 @@ a { color: inherit; text-decoration: none; }
   z-index: 1;
 }
 
+/* A raised cosine sampled every 10%: opacity = min + amp * (0.5 - 0.5cos(2*pi*t)).
+   The old version had only two stops on an ease-in-out, which lingered at each
+   extreme and then dropped away quickly - stars appeared to blink out. Stepping
+   the curve and running it linear makes the rise and fall continuous. */
 @keyframes twinkle {
-  0%, 100% { opacity: var(--min-o, 0.2); }
-  50% { opacity: var(--max-o, 0.9); }
+  0%, 100% { opacity: var(--min-o, 0.15); }
+  10%, 90% { opacity: calc(var(--min-o, 0.15) + var(--amp, 0.7) * 0.0955); }
+  20%, 80% { opacity: calc(var(--min-o, 0.15) + var(--amp, 0.7) * 0.3455); }
+  30%, 70% { opacity: calc(var(--min-o, 0.15) + var(--amp, 0.7) * 0.6545); }
+  40%, 60% { opacity: calc(var(--min-o, 0.15) + var(--amp, 0.7) * 0.9045); }
+  50% { opacity: calc(var(--min-o, 0.15) + var(--amp, 0.7)); }
 }
 
-.star { animation: twinkle var(--dur, 4s) ease-in-out infinite; animation-delay: var(--delay, 0s); }
+.star { animation: twinkle var(--dur, 4s) linear infinite; animation-delay: var(--delay, 0s); }
 
 @media (prefers-reduced-motion: reduce) {
-  .star { animation: none; opacity: 0.5; }
+  .star, .star-bright { animation: none; opacity: 0.5; }
   html { scroll-behavior: auto; }
 }
 
