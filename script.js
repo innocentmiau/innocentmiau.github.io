@@ -15,9 +15,10 @@
 
   // Placed deliberately rather than randomly: out in the margins, clear of
   // the centred content column.
+  // spin is the surface's full rotation in seconds; clouds always outpace it.
   var planets = narrow
-    ? [{ x: 88, y: 12, size: 70 }]
-    : [{ x: 85, y: 15, size: 132 }, { x: 9, y: 80, size: 66 }];
+    ? [{ x: 88, y: 12, size: 70, spin: 190 }]
+    : [{ x: 85, y: 15, size: 132, spin: 240 }, { x: 9, y: 80, size: 66, spin: 170 }];
 
   planets.forEach(function (p) {
     var el = document.createElement('div');
@@ -27,6 +28,30 @@
     el.style.width = p.size + 'px';
     el.style.height = p.size + 'px';
     el.style.fontSize = p.size + 'px'; // em-based shadows scale with the planet
+
+    var globe = document.createElement('div');
+    globe.className = 'planet-globe';
+
+    var land = document.createElement('div');
+    land.className = 'planet-land';
+    land.style.animationDuration = p.spin + 's';
+
+    var clouds = document.createElement('div');
+    clouds.className = 'planet-clouds';
+    clouds.style.animationDuration = Math.round(p.spin / 2.4) + 's';
+
+    globe.appendChild(land);
+    globe.appendChild(clouds);
+
+    var shade = document.createElement('div');
+    shade.className = 'planet-shade';
+
+    var rim = document.createElement('div');
+    rim.className = 'planet-rim';
+
+    el.appendChild(globe);
+    el.appendChild(shade);
+    el.appendChild(rim);
     field.appendChild(el);
   });
 

@@ -117,44 +117,80 @@ a { color: inherit; text-decoration: none; }
   position: absolute;
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  background: radial-gradient(circle at 33% 28%,
-    rgba(178, 172, 186, 0.92) 0%,
-    rgba(118, 100, 112, 0.9) 26%,
-    rgba(62, 54, 78, 0.94) 56%,
-    rgba(20, 20, 36, 0.98) 82%,
-    rgba(8, 9, 18, 1) 100%);
-  box-shadow:
-    inset -0.1em -0.12em 0.26em rgba(0, 0, 0, 0.9),
-    0 0 2.4em rgba(130, 165, 255, 0.14);
-  opacity: 0.72;
+  box-shadow: 0 0 2.4em rgba(130, 165, 255, 0.16);
+  opacity: 0.78;
 }
 
-/* Mottled surface, same noise trick as the clouds. */
-.planet::before {
-  content: "";
+/* Clips the scrolling texture bands to the disc. The base fill is the
+   ocean, i.e. surface layer 1. */
+.planet-globe {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: linear-gradient(118deg, rgba(206, 116, 74, 0.85) 0%, rgba(158, 92, 96, 0.7) 45%, rgba(88, 110, 168, 0.6) 100%);
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.05' numOctaves='4' seed='5'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.05' numOctaves='4' seed='5'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  -webkit-mask-size: 100% 100%;
-  mask-size: 100% 100%;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  /* soft-light keeps the mottling inside the sphere's own shading instead of
-     flattening it into a decal, while staying visible on a dark base. */
-  mix-blend-mode: soft-light;
-  opacity: 1;
+  overflow: hidden;
+  background: radial-gradient(circle at 34% 30%, #2f6690 0%, #1e4468 45%, #132a4c 76%, #0b1830 100%);
+}
+
+/* Both bands are three planet-widths wide and scroll exactly one width per
+   cycle, so the loop is seamless. The mask travels with the band, so the
+   continents and clouds move as one piece. */
+.planet-land,
+.planet-clouds {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 300%;
+  height: 100%;
+  -webkit-mask-size: 33.3333% 100%;
+  mask-size: 33.3333% 100%;
+  -webkit-mask-repeat: repeat;
+  mask-repeat: repeat;
+  will-change: transform;
+  animation: planet-spin linear infinite;
+}
+
+/* Surface layer 2: land, thresholded out of the noise so it meets the ocean
+   at a coastline instead of fading into it. */
+.planet-land {
+  background: linear-gradient(150deg, #4e7a45 0%, #5f7f42 34%, #7d7147 66%, #5a5f42 100%);
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='4' seed='9' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='8' intercept='-4.5'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='4' seed='9' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='8' intercept='-4.5'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Layer 3: cloud deck on its own noise, softer edged and faster moving. */
+.planet-clouds {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(222, 236, 255, 0.8));
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.02' numOctaves='5' seed='27' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='4' intercept='-2.35'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.02' numOctaves='5' seed='27' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='4' intercept='-2.35'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.5;
+}
+
+@keyframes planet-spin {
+  from { transform: translateX(0); }
+  to { transform: translateX(-33.3333%); }
+}
+
+/* Shading sits above the moving bands and does not move, which is what
+   reads as a sphere rotating rather than a flat texture sliding. */
+.planet-shade {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 31% 26%, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.08) 22%, transparent 47%),
+    radial-gradient(circle at 37% 33%, transparent 32%, rgba(4, 6, 14, 0.5) 70%, rgba(3, 4, 10, 0.96) 100%);
 }
 
 /* Rim light on the sunward edge. */
-.planet::after {
-  content: "";
+.planet-rim {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: radial-gradient(circle at 27% 23%, rgba(190, 220, 255, 0.55), transparent 44%);
+  box-shadow: inset 0.05em 0.06em 0.1em rgba(190, 220, 255, 0.4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .planet-land, .planet-clouds { animation: none; }
 }
 
 /* ---------- bright stars with diffraction spikes ---------- */
