@@ -41,10 +41,67 @@ a { color: inherit; text-decoration: none; }
   background: radial-gradient(ellipse at 50% -10%, #0d1430 0%, var(--bg) 55%);
 }
 
+/* Nebula: generated, not an image. An SVG feTurbulence filter produces
+   fractal noise, which masks a field of coloured radial gradients so the
+   colour breaks up into wisps instead of reading as soft blobs. Two layers
+   at different scales give depth. Painted before .star children, so the
+   stars still sit on top. */
+.starfield::before,
+.starfield::after {
+  content: "";
+  position: absolute;
+  inset: -15%;
+  pointer-events: none;
+}
+
+/* Broad colour mass, weighted right and low so the text column stays dark. */
+.starfield::before {
+  background:
+    radial-gradient(34% 42% at 78% 30%, rgba(196, 116, 236, 0.6), transparent 68%),
+    radial-gradient(30% 38% at 88% 52%, rgba(232, 104, 152, 0.5), transparent 68%),
+    radial-gradient(32% 40% at 62% 22%, rgba(92, 122, 250, 0.45), transparent 68%),
+    radial-gradient(30% 34% at 18% 84%, rgba(96, 132, 240, 0.4), transparent 68%),
+    radial-gradient(26% 30% at 40% 92%, rgba(168, 110, 224, 0.32), transparent 68%);
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.013' numOctaves='5' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.013' numOctaves='5' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  -webkit-mask-size: 900px 900px;
+  mask-size: 900px 900px;
+  filter: blur(11px);
+  opacity: 0.5;
+}
+
+/* Finer, brighter filaments threaded through the broad colour. */
+.starfield::after {
+  background:
+    radial-gradient(22% 26% at 80% 34%, rgba(255, 168, 214, 0.45), transparent 62%),
+    radial-gradient(20% 24% at 90% 54%, rgba(255, 142, 168, 0.36), transparent 62%),
+    radial-gradient(22% 24% at 20% 86%, rgba(150, 190, 255, 0.34), transparent 62%);
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.032' numOctaves='5' seed='11' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.032' numOctaves='5' seed='11' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  -webkit-mask-size: 700px 700px;
+  mask-size: 700px 700px;
+  filter: blur(6px);
+  opacity: 0.42;
+}
+
+/* Without mask support the gradients would show unmasked as hard colour
+   blobs, which is worse than no nebula at all. */
+@supports not ((mask-image: linear-gradient(#000, #000)) or (-webkit-mask-image: linear-gradient(#000, #000))) {
+  .starfield::before, .starfield::after { display: none; }
+}
+
+/* Large blurred surfaces are the expensive part on phones, so the detail
+   layer is dropped and the broad one blurs less. */
+@media (max-width: 700px) {
+  .starfield::after { display: none; }
+  .starfield::before { filter: blur(8px); opacity: 0.42; }
+}
+
 .star {
   position: absolute;
   background: #cfe0ff;
   border-radius: 50%;
+  z-index: 1;
 }
 
 @keyframes twinkle {
