@@ -139,11 +139,22 @@
 
   /* Which icons a card earns is derived from what is already in its markup,
      so most cards need no new attributes. data-platforms adds the rest. */
+  /* Only these belong in the collapsed list strip. A wrench or a
+     collaboration icon there would be noise rather than information. */
+  var PLATFORM_KEYS = { web: 1, windows: 1, linux: 1, unity: 1 };
+
   function iconsFor(card) {
     var names = [];
     function add(n) { if (ICONS[n] && names.indexOf(n) < 0) names.push(n); }
 
     if (card.querySelector('.badge-play')) add('web');
+
+    // A "Windows" or "Linux" badge is enough; no second source of truth.
+    var badges = card.querySelectorAll('.badge');
+    for (var b = 0; b < badges.length; b++) {
+      var key = window.resolveIcon(badges[b].textContent);
+      if (key && PLATFORM_KEYS[key]) add(key);
+    }
 
     var declared = (card.getAttribute('data-platforms') || '').split(/[\s,]+/);
     for (var i = 0; i < declared.length; i++) { if (declared[i]) add(declared[i]); }

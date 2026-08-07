@@ -214,3 +214,5 @@ function decorateBadges(root) {
 
 window.SITE_ICONS = SITE_ICONS;
 window.decorateBadges = decorateBadges;
+window.resolveIcon = resolveIcon;
+window.escapeHtml = escapeHtml;
