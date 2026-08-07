@@ -99,7 +99,7 @@
     "date": "2026-06-16",
     "type": "game",
     "title": "Vessel of Honor",
-    "description": "An adventure project, playable in browser.",
+    "description": "A singleplayer pixel art adventure RPG.",
     "tags": [
       "itch.io",
       "Adventure"
@@ -111,7 +111,7 @@
     "date": "2026-02-13",
     "type": "game",
     "title": "Astrophobia",
-    "description": "A short solo project exploring atmosphere and tension.",
+    "description": "You wake from cryo sleep in 2087 to find the crew dead and the station AI refusing you access. A first person sci-fi escape room.",
     "tags": [
       "itch.io",
       "Puzzle"
@@ -123,7 +123,7 @@
     "date": "2026-01-01",
     "type": "game",
     "title": "Glacier Soldier",
-    "description": "Game jam entry, playable directly in browser.",
+    "description": "Survive as long as you can while your abilities cast themselves. Made for Winter Game Jam 2025 on the theme 'Iced'.",
     "tags": [
       "itch.io"
     ],
@@ -146,7 +146,7 @@
     "date": "2025-12-12",
     "type": "game",
     "title": "PoolieSurvivie",
-    "description": "An action survival project.",
+    "description": "A Vampire Survivors style arena survivor where you upgrade your stats as the enemies grow stronger. Built for a university course on object pooling.",
     "tags": [
       "itch.io",
       "Action"
@@ -170,7 +170,7 @@
     "date": "2025-11-16",
     "type": "jam",
     "title": "Pengu The Explorer",
-    "description": "A 2d platformer where you play as a little penguin exploring a snowy world. Rescue lost cats and return to your peaceful igloo, where every saved cat waits you.",
+    "description": "A 2D platformer where you play a little penguin exploring a snowy world. Rescue all five lost cats and bring them home to your igloo.",
     "tags": [
       "itch.io",
       "Platformer",
@@ -219,7 +219,7 @@
     "date": "2025-06-27",
     "type": "game",
     "title": "Hyperlight",
-    "description": "Game jam entry, playable directly in browser.",
+    "description": "Play the captain of a ship fleeing the heat death of the universe. Type to shoot in this vertical bullet hell, killing enemies to power your engine and buy more time.",
     "tags": [
       "itch.io",
       "Survival"
@@ -231,7 +231,7 @@
     "date": "2025-06-22",
     "type": "game",
     "title": "PawtasticJumper",
-    "description": "A game jam platformer, playable in browser.",
+    "description": "A cute 2D pixel art platformer built around jumping.",
     "tags": [
       "itch.io",
       "Platformer"
@@ -343,7 +343,7 @@
     "date": "2025-03-06",
     "type": "game",
     "title": "Project SM",
-    "description": "A survival project, currently in progress.",
+    "description": "A 3D singleplayer survival game, still in development.",
     "tags": [
       "itch.io",
       "Survival"
@@ -355,7 +355,7 @@
     "date": "2025-02-26",
     "type": "game",
     "title": "Wind of Change",
-    "description": "Experience Berlin days before the fall of the infamous wall.",
+    "description": "Berlin in the days before the wall falls. Play a mailman going door to door, talking to townsfolk and helping a young child through a difficult time.",
     "tags": [
       "itch.io",
       "Role Playing",
@@ -406,7 +406,7 @@
     "date": "2024-11-20",
     "type": "game",
     "title": "The Engoodening Legend",
-    "description": "A game jam entry, playable in browser.",
+    "description": "Find and collect every treasure hidden in the maze, while dodging the enemies guarding them.",
     "tags": [
       "itch.io"
     ],
@@ -491,7 +491,7 @@
     "date": "2024-10-12",
     "type": "game",
     "title": "Call and Age of Dragons: Total War Unreal Remastered 2024",
-    "description": "A short Idle/Auto-battler experience made for GCC about dragons defeating robots.",
+    "description": "A short idle auto-battler about dragons defeating robots, made with the Game Creators Club.",
     "tags": [
       "itch.io",
       "Strategy",
