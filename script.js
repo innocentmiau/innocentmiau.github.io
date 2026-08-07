@@ -4,6 +4,50 @@
 
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var count = window.innerWidth < 600 ? 60 : 110;
+  var narrow = window.innerWidth < 700;
+
+  /* Everything below is added before the .star loop so the small stars,
+     appended after, paint on top of the clouds and planets. */
+
+  var fine = document.createElement('div');
+  fine.className = 'neb-fine';
+  field.appendChild(fine);
+
+  // Placed deliberately rather than randomly: out in the margins, clear of
+  // the centred content column.
+  var planets = narrow
+    ? [{ x: 88, y: 12, size: 70 }]
+    : [{ x: 85, y: 15, size: 132 }, { x: 9, y: 80, size: 66 }];
+
+  planets.forEach(function (p) {
+    var el = document.createElement('div');
+    el.className = 'planet';
+    el.style.left = p.x + '%';
+    el.style.top = p.y + '%';
+    el.style.width = p.size + 'px';
+    el.style.height = p.size + 'px';
+    el.style.fontSize = p.size + 'px'; // em-based shadows scale with the planet
+    field.appendChild(el);
+  });
+
+  var bright = narrow ? 4 : 9;
+  for (var b = 0; b < bright; b++) {
+    var big = document.createElement('div');
+    big.className = 'star-bright';
+    big.style.left = (4 + Math.random() * 92) + '%';
+    big.style.top = (4 + Math.random() * 92) + '%';
+    big.style.setProperty('--sb', (2 + Math.random() * 2.4).toFixed(2) + 'px');
+    if (!reduceMotion) {
+      big.style.setProperty('--dur', (5 + Math.random() * 6) + 's');
+      big.style.setProperty('--delay', (Math.random() * 6) + 's');
+      big.style.setProperty('--min-o', (0.45 + Math.random() * 0.2).toFixed(2));
+      big.style.setProperty('--max-o', (0.85 + Math.random() * 0.15).toFixed(2));
+    } else {
+      big.style.animation = 'none';
+      big.style.opacity = 0.75;
+    }
+    field.appendChild(big);
+  }
 
   for (var i = 0; i < count; i++) {
     var star = document.createElement('div');
