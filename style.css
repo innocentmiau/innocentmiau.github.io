@@ -252,6 +252,229 @@ h2 { font-size: 1.05rem; letter-spacing: 0.02em; margin-bottom: 0.5rem; }
 /* Group headings repeat down a page, so they sit tighter than a lone section. */
 .group + .group { padding-top: 3.5rem; }
 
+/* ---------- view modes: scroll / grid / list ----------
+   One set of card markup, three layouts. The mode lives on
+   .list-view[data-mode], so switching is a single attribute swap. */
+
+.view-bar { display: flex; justify-content: flex-end; margin-bottom: 1rem; }
+
+.view-toggle {
+  display: inline-flex;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  padding: 2px;
+}
+
+.view-toggle button {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  padding: 0.3rem 0.75rem;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.view-toggle button:hover { color: var(--text-primary); }
+
+.view-toggle button[aria-pressed="true"] {
+  background: var(--surface-hover);
+  color: var(--accent);
+}
+
+/* -- shared -- */
+
+.list-view { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.1rem; }
+
+/* -- 1. scroll: peek shelf -- */
+
+.shelf { position: relative; }
+
+.list-view[data-mode="scroll"] {
+  display: flex;
+  gap: 1.1rem;
+  overflow-x: auto;
+  /* "proximity" rather than "mandatory": mandatory can trap keyboard and
+     assistive-tech users on content that sits between snap points. */
+  scroll-snap-type: x proximity;
+  padding-bottom: 0.85rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+
+.list-view[data-mode="scroll"] > .card {
+  flex: 0 0 clamp(200px, 42vw, 232px);
+  scroll-snap-align: start;
+}
+
+.list-view[data-mode="scroll"]::-webkit-scrollbar { height: 6px; }
+.list-view[data-mode="scroll"]::-webkit-scrollbar-track { background: transparent; }
+.list-view[data-mode="scroll"]::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 3px;
+}
+
+/* Edge fades hint that the row continues. Toggled by JS, so they never
+   sit over an edge that has nothing beyond it. */
+.shelf::before, .shelf::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0.85rem;
+  width: 3.5rem;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  z-index: 2;
+}
+
+.shelf::before { left: 0; background: linear-gradient(to right, var(--bg), transparent); }
+.shelf::after { right: 0; background: linear-gradient(to left, var(--bg), transparent); }
+.shelf.can-prev::before { opacity: 1; }
+.shelf.can-next::after { opacity: 1; }
+
+.shelf-arrow {
+  position: absolute;
+  top: calc(50% - 0.4rem);
+  transform: translateY(-50%);
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  padding: 0;
+  border: 1px solid var(--border-strong);
+  border-radius: 50%;
+  background: rgba(9, 12, 23, 0.92);
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.shelf-prev { left: 0.35rem; }
+.shelf-next { right: 0.35rem; }
+
+.shelf:hover .shelf-arrow, .shelf-arrow:focus-visible { opacity: 1; }
+.shelf-arrow:hover { border-color: var(--accent); background: var(--surface-hover); }
+.shelf-arrow[disabled] { display: none; }
+
+/* Touch devices scroll directly and never hover, so the arrows are dead weight. */
+@media (hover: none) {
+  .shelf-arrow { display: none; }
+}
+
+/* -- 2. grid: the original layout -- */
+
+.list-view[data-mode="grid"] {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1.1rem;
+}
+
+/* -- 3. list: compact rows, click to expand -- */
+
+.list-view[data-mode="list"] { display: block; }
+
+.list-view[data-mode="list"] > .card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    "media title icons"
+    "media desc  icons"
+    "media extra extra";
+  align-items: center;
+  column-gap: 1rem;
+  row-gap: 0.15rem;
+  padding: 0.8rem 0.6rem;
+  border-width: 0 0 1px;
+  border-radius: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.list-view[data-mode="list"] > .card:hover {
+  background: var(--surface);
+  border-color: var(--border);
+  transform: none;
+}
+
+.list-view[data-mode="list"] > .card:last-child { border-bottom: 0; }
+
+/* .card-media carries negative margins for the full-bleed grid thumbnail,
+   so they have to be undone before it can be a small inline square. */
+.list-view[data-mode="list"] .card-media {
+  grid-area: media;
+  margin: 0;
+  width: 3.1rem;
+  height: 3.1rem;
+  aspect-ratio: auto;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.list-view[data-mode="list"] .card h3 { grid-area: title; margin: 0; font-size: 0.92rem; }
+
+.list-view[data-mode="list"] .card > p {
+  grid-area: desc;
+  margin: 0;
+  flex-grow: 0;
+  font-size: 0.82rem;
+  /* Cap at one line and let CSS add the ellipsis, so it stays correct
+     on resize without measuring anything in JS. */
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.list-view[data-mode="list"] .card .badge-row { grid-area: extra; margin: 0.5rem 0 0.2rem; }
+.list-view[data-mode="list"] .card .card-link { grid-area: extra; margin: 0; }
+
+/* Collapsed rows show the icon strip only; badges and the link appear on expand. */
+.list-view[data-mode="list"] .card .badge-row,
+.list-view[data-mode="list"] .card .card-link { display: none; }
+
+.list-view[data-mode="list"] .card.is-open {
+  grid-template-areas:
+    "media title icons"
+    "media desc  icons"
+    "extra extra extra";
+  align-items: start;
+  background: var(--surface);
+}
+
+.list-view[data-mode="list"] .card.is-open > p { -webkit-line-clamp: unset; line-clamp: unset; overflow: visible; }
+.list-view[data-mode="list"] .card.is-open .badge-row { display: flex; }
+.list-view[data-mode="list"] .card.is-open .card-link { display: block; margin-bottom: 0.2rem; }
+
+/* -- platform / target icons (list mode) -- */
+
+.card-icons { display: none; gap: 0.5rem; align-items: center; }
+.list-view[data-mode="list"] .card-icons { display: flex; grid-area: icons; }
+
+.card-icons svg {
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: var(--text-muted);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.card-icons svg.icon-solid { fill: var(--text-muted); stroke: none; }
+.list-view[data-mode="list"] .card:hover .card-icons svg { stroke: var(--accent); }
+.list-view[data-mode="list"] .card:hover .card-icons svg.icon-solid { fill: var(--accent); stroke: none; }
+
 /* ---------- in-page section jump nav ---------- */
 
 .section-nav { display: flex; gap: 0.5rem; flex-wrap: wrap; }
