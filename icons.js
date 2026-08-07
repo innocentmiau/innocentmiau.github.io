@@ -43,9 +43,13 @@ var SITE_ICONS = {
     svg: '<svg viewBox="0 0 24 24" class="icon-solid"><path d="M3 5.7 10.2 4.7v6.6H3zM11.4 4.5 21 3.2v8.1h-9.6zM3 12.7h7.2v6.6L3 18.3zM11.4 12.7H21v8.1l-9.6-1.3z"/></svg>'
   },
 
+  /* Tux: the feet and the pinched neck are what stop the silhouette reading
+     as a plain blob at small sizes. Eyes and beak are evenodd holes rather
+     than filled shapes, so they show the background through and work on any
+     colour. */
   linux: {
     label: 'Linux',
-    svg: '<svg viewBox="0 0 24 24" class="icon-solid"><path d="M12 2.5c1.9 0 3.2 1.5 3.2 3.6 0 1.3.4 2.1 1.2 3.3 1.2 1.9 2.1 3.4 2.1 5.4 0 3-2.7 4.7-6.5 4.7s-6.5-1.7-6.5-4.7c0-2 .9-3.5 2.1-5.4.8-1.2 1.2-2 1.2-3.3C8.8 4 10.1 2.5 12 2.5zm-1.6 3.1a.85.85 0 1 0 0 1.7.85.85 0 0 0 0-1.7zm3.2 0a.85.85 0 1 0 0 1.7.85.85 0 0 0 0-1.7zM12 8.6c-.8 0-1.5.4-1.5.9s.7.8 1.5.8 1.5-.3 1.5-.8-.7-.9-1.5-.9z"/></svg>'
+    svg: '<svg viewBox="0 0 24 24" class="icon-solid"><ellipse cx="9.1" cy="20.5" rx="2.7" ry="1.25"/><ellipse cx="14.9" cy="20.5" rx="2.7" ry="1.25"/><path fill-rule="evenodd" d="M12 2.4c-1.95 0-3.45 1.55-3.45 3.5 0 1.05.05 1.6-.3 2.3-.28.57-.72 1.05-1.15 1.7C5.95 11.65 5.2 13.3 5.2 15.3c0 3.2 2.95 5.3 6.8 5.3s6.8-2.1 6.8-5.3c0-2-.75-3.65-1.9-5.4-.43-.65-.87-1.13-1.15-1.7-.35-.7-.3-1.25-.3-2.3 0-1.95-1.5-3.5-3.45-3.5Zm-1.35 3.05a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm2.7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2ZM12 7.85c.85 0 1.5.42 1.5.88 0 .5-.65.82-1.5.82s-1.5-.32-1.5-.82c0-.46.65-.88 1.5-.88Z"/></svg>'
   },
 
   unity: {
