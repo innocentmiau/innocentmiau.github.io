@@ -245,10 +245,17 @@
     card.setAttribute('aria-expanded', open ? 'true' : 'false');
   }
 
-  function setMode(mode, persist) {
+  /* Switching mode changes the height of every section on the page, including
+     the ones above the one being clicked, so the content under the cursor
+     would otherwise jump somewhere else entirely. Measuring the clicked
+     toggle before and after, then correcting the page scroll by the
+     difference, keeps it exactly where it was. */
+  function setMode(mode, persist, anchor) {
     if (MODES.indexOf(mode) < 0) return;
     current = mode;
     if (persist) writeStored(mode);
+
+    var anchorTop = anchor ? anchor.getBoundingClientRect().top : null;
 
     for (var i = 0; i < shelves.length; i++) {
       var entry = shelves[i];
@@ -262,6 +269,15 @@
       if (mode === 'scroll') entry.list.scrollLeft = 0;
       syncCards(entry);
       updateEdges(entry);
+    }
+
+    if (anchorTop !== null) {
+      // getBoundingClientRect forces the pending layout, so this reads the
+      // post-change position. behavior:'auto' overrides the page's
+      // scroll-behavior:smooth, which would animate a correction that is
+      // meant to be invisible.
+      var shift = anchor.getBoundingClientRect().top - anchorTop;
+      if (shift) window.scrollTo({ top: window.pageYOffset + shift, behavior: 'auto' });
     }
   }
 
@@ -280,7 +296,7 @@
         b.type = 'button';
         b.textContent = LABELS[mode];
         b.setAttribute('data-view', mode);
-        b.addEventListener('click', function () { setMode(mode, true); });
+        b.addEventListener('click', function () { setMode(mode, true, bar); });
         group.appendChild(b);
       })(MODES[i]);
     }
