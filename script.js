@@ -109,7 +109,9 @@
       var icon = ICONS[names[i]];
       wrap.insertAdjacentHTML(
         'beforeend',
-        icon.svg.replace('<svg', '<svg role="img" aria-label="' + icon.label + '"')
+        '<span class="card-icon" data-tip="' + icon.label + '">' +
+          icon.svg.replace('<svg', '<svg role="img" aria-label="' + icon.label + '"') +
+        '</span>'
       );
     }
     card.appendChild(wrap);

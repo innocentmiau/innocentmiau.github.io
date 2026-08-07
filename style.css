@@ -475,6 +475,41 @@ h2 { font-size: 1.05rem; letter-spacing: 0.02em; margin-bottom: 0.5rem; }
 .list-view[data-mode="list"] .card:hover .card-icons svg { stroke: var(--accent); }
 .list-view[data-mode="list"] .card:hover .card-icons svg.icon-solid { fill: var(--accent); stroke: none; }
 
+/* Tooltip: the label is already on the svg for screen readers, this is the
+   sighted equivalent. Built in CSS so it matches the site and appears
+   instantly, rather than waiting on the browser's native title delay. */
+.card-icon { position: relative; display: inline-grid; place-items: center; }
+
+.card-icon::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 0.4rem);
+  /* Anchored right rather than centred: the icon strip is flush with the row's
+     right edge, so a centred tooltip can spill past it on narrow screens. */
+  right: 0;
+  z-index: 5;
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  letter-spacing: 0.02em;
+  padding: 0.25rem 0.55rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 4px;
+  background: var(--bg-2);
+  color: var(--text-primary);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+.card-icon:hover::after { opacity: 1; }
+.card-icon:hover svg { stroke: var(--accent); }
+.card-icon:hover svg.icon-solid { fill: var(--accent); stroke: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .card-icon::after { transition: none; }
+}
+
 /* ---------- in-page section jump nav ---------- */
 
 .section-nav { display: flex; gap: 0.5rem; flex-wrap: wrap; }
