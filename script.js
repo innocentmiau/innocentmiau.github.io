@@ -18,11 +18,14 @@
   // spin is the surface's full rotation in seconds; clouds always outpace it.
   var planets = narrow
     ? [{ x: 88, y: 12, size: 70, spin: 190 }]
-    : [{ x: 85, y: 15, size: 132, spin: 240 }, { x: 9, y: 80, size: 66, spin: 170 }];
+    : [
+        { x: 85, y: 15, size: 132, spin: 240 },
+        { x: 9, y: 80, size: 66, spin: 170, variant: 'mars' }
+      ];
 
   planets.forEach(function (p) {
     var el = document.createElement('div');
-    el.className = 'planet';
+    el.className = 'planet' + (p.variant ? ' planet--' + p.variant : '');
     el.style.left = p.x + '%';
     el.style.top = p.y + '%';
     el.style.width = p.size + 'px';
