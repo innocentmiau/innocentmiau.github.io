@@ -122,7 +122,7 @@
   var STORE_KEY = 'preferredViewMode';
   var MODES = ['scroll', 'grid', 'list'];
   var LABELS = { scroll: 'Scroll', grid: 'Grid', list: 'List' };
-  var smooth = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   var ICONS = window.SITE_ICONS;
 
@@ -214,7 +214,9 @@
     b.innerHTML = dir < 0 ? '&lsaquo;' : '&rsaquo;';
     b.setAttribute('aria-label', dir < 0 ? 'Scroll left' : 'Scroll right');
     b.addEventListener('click', function () {
-      entry.list.scrollBy({ left: dir * entry.list.clientWidth * 0.8, behavior: smooth });
+      var step = entry.cardStep();
+      var perPage = Math.max(1, Math.floor(entry.list.clientWidth / step));
+      entry.nudge(dir * perPage * step);
     });
     return b;
   }
@@ -300,12 +302,120 @@
     shelf.parentNode.insertBefore(bar, shelf);
 
     var entry = { list: list, shelf: shelf, bar: bar, cards: cards };
+
+    /* One card plus the gap: the unit everything moves in. */
+    function cardStep() {
+      var card = list.querySelector('.card');
+      if (!card) return Math.round(list.clientWidth * 0.8);
+      var cs = getComputedStyle(list);
+      return card.offsetWidth + (parseFloat(cs.columnGap || cs.gap) || 0);
+    }
+
+    /* Eased glide. While it runs, CSS snapping is off so the two do not fight;
+       it is handed back only once we have settled, and since every target is
+       card-aligned, handing it back is a no-op rather than a correction. */
+    var anim = { target: null, raf: 0, last: 0 };
+
+    function stopGlide() {
+      if (anim.raf) cancelAnimationFrame(anim.raf);
+      anim.raf = 0;
+      anim.target = null;
+    }
+
+    function frame(now) {
+      var dt = Math.min(48, now - anim.last) / 1000;
+      anim.last = now;
+
+      var diff = anim.target - list.scrollLeft;
+      if (Math.abs(diff) < 1) {
+        list.scrollLeft = anim.target;
+        stopGlide();
+        list.style.scrollSnapType = '';
+        return;
+      }
+      /* Exponential ease-out, settling in roughly 0.35s. Deriving the factor
+         from elapsed time keeps the curve identical on 60Hz and 144Hz. */
+      var move = diff * (1 - Math.pow(1e-7, dt));
+
+      /* scrollLeft is rounded to whole pixels, so once the eased step drops
+         below 1px the position stops changing and the glide stalls a couple
+         of pixels short - never finishing, and never handing snapping back.
+         Keeping a minimum of one pixel guarantees it converges. */
+      if (Math.abs(move) < 1) move = diff > 0 ? 1 : -1;
+
+      list.scrollLeft += move;
+      anim.raf = requestAnimationFrame(frame);
+    }
+
+    function glideTo(x) {
+      var max = list.scrollWidth - list.clientWidth;
+      x = Math.max(0, Math.min(max, Math.round(x)));
+
+      if (reduceMotion) {
+        stopGlide();
+        list.scrollLeft = x;
+        return;
+      }
+      list.style.scrollSnapType = 'none';
+      anim.target = x;
+      if (!anim.raf) {
+        anim.last = (window.performance || Date).now();
+        anim.raf = requestAnimationFrame(frame);
+      }
+    }
+
+    entry.cardStep = cardStep;
+    entry.nudge = function (delta) {
+      glideTo((anim.target == null ? list.scrollLeft : anim.target) + delta);
+    };
+
     entry.prev = makeArrow(-1, entry);
     entry.next = makeArrow(1, entry);
     shelf.appendChild(entry.prev);
     shelf.appendChild(entry.next);
 
     list.addEventListener('scroll', function () { updateEdges(entry); }, { passive: true });
+
+    /* Wheel over a shelf scrolls it sideways instead of moving the page.
+       It deliberately gives up at the ends: once the shelf can go no further
+       the event is left alone and the page scrolls normally, so passing the
+       cursor over a shelf never traps you. */
+    list.addEventListener('wheel', function (e) {
+      if (current !== 'scroll') return;
+      if (e.ctrlKey) return;                                 // pinch zoom
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;   // already horizontal
+
+      var max = list.scrollWidth - list.clientWidth;
+      if (max <= 0) return;
+
+      var from = anim.target == null ? list.scrollLeft : anim.target;
+      var step = cardStep();
+      var target;
+
+      if (e.deltaMode === 0 && Math.abs(e.deltaY) < 40) {
+        // Trackpads emit a stream of small deltas; follow them one to one.
+        target = from + e.deltaY;
+      } else {
+        /* A mouse notch moves a whole card and lands on a card boundary.
+           Moving a raw pixel delta instead left the shelf mid-card, and the
+           snap then dragged it back to where it started - the wheel appeared
+           to do nothing at all. */
+        var dir = e.deltaY > 0 ? 1 : -1;
+        var notches = e.deltaMode === 1 ? Math.max(1, Math.round(Math.abs(e.deltaY) / 3))
+                    : e.deltaMode === 2 ? Math.max(1, Math.round(Math.abs(e.deltaY)))
+                    : 1;
+        target = (Math.round(from / step) + dir * notches) * step;
+      }
+
+      if ((target < from && from <= 0) || (target > from && from >= max - 1)) return;
+      if (target === from) return;
+
+      e.preventDefault();
+      glideTo(target);
+    }, { passive: false });
+
+    // A scrollbar drag or touch should take over from an in-flight glide.
+    list.addEventListener('pointerdown', stopGlide);
 
     list.addEventListener('click', function (e) {
       if (current !== 'list') return;

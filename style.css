@@ -560,6 +560,9 @@ h2 { font-size: 1.05rem; letter-spacing: 0.02em; margin-bottom: 0.5rem; }
   /* "proximity" rather than "mandatory": mandatory can trap keyboard and
      assistive-tech users on content that sits between snap points. */
   scroll-snap-type: x proximity;
+  /* Stops a sideways fling at the end of a shelf from chaining into the
+     browser's swipe-to-go-back gesture. */
+  overscroll-behavior-x: contain;
   padding-bottom: 0.85rem;
   scrollbar-width: thin;
   scrollbar-color: var(--border-strong) transparent;
