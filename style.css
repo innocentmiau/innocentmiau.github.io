@@ -249,6 +249,51 @@ h2 { font-size: 1.05rem; letter-spacing: 0.02em; margin-bottom: 0.5rem; }
 /* Group headings repeat down a page, so they sit tighter than a lone section. */
 .group + .group { padding-top: 3.5rem; }
 
+/* ---------- in-page section jump nav ---------- */
+
+.section-nav { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+.section-nav a {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  padding: 0.4rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text-secondary);
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.section-nav a:hover, .section-nav a:focus-visible {
+  color: var(--text-primary);
+  border-color: var(--accent-dim);
+  background: var(--surface-hover);
+}
+
+/* The header is sticky, so an anchor jump would otherwise land with the
+   target heading hidden underneath it. */
+[id] { scroll-margin-top: 6rem; }
+
+/* ---------- page end row / back to top ---------- */
+
+.page-end {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.to-top {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  transition: color 0.2s ease;
+}
+
+.to-top:hover, .to-top:focus-visible { color: var(--accent); }
+
 .card-link { font-size: 0.82rem; color: var(--accent); margin-top: auto; }
 .card-link:hover, .card-link:focus-visible { color: #b8ccff; }
 
@@ -316,4 +361,6 @@ a:focus-visible, .btn:focus-visible {
   .hero { padding: 3.5rem 0 3rem; }
   .row-list li { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
   .row-desc { text-align: left; }
+  /* The header stacks into two rows here, so anchors need more clearance. */
+  [id] { scroll-margin-top: 8.5rem; }
 }

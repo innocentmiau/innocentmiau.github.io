@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>André Leandro | Unity Tools</title>
-<meta name="description" content="Unity packages and shaders built by André Leandro (innocentmiau), open source on GitHub.">
+<title>André Leandro | Unity</title>
+<meta name="description" content="Unity packages and shaders built by André Leandro (innocentmiau) - editor tools, build automation, and localization, all open source on GitHub.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -19,7 +19,7 @@
   <nav>
     <a href="index.html">Home</a>
     <a href="games.html">Games</a>
-    <a href="unity-tools.html" class="active">Unity Tools</a>
+    <a href="unity-tools.html" class="active">Unity</a>
     <a href="others.html">Others</a>
     <a href="contact.html">Contact</a>
   </nav>
@@ -28,12 +28,68 @@
 <main>
 
   <section class="hero" style="padding-bottom: 2rem;">
-    <p class="eyebrow">// tools &amp; shaders</p>
-    <h1>Unity Tools</h1>
-    <p class="hero-sub">Editor tools, build automation, and shaders I've built for Unity - all open source, free to use or fork.</p>
+    <p class="eyebrow">// unity</p>
+    <h1>Unity</h1>
+    <p class="hero-sub">Editor tools, build automation, and shaders I've built for Unity - all open source and free to use or fork. Every package installs straight from a Git URL through the Package Manager.</p>
+    <nav class="section-nav" aria-label="Sections on this page">
+      <a href="#packages">Packages</a>
+      <a href="#shaders">Shaders</a>
+    </nav>
   </section>
 
-  <section style="padding-top: 0;">
+  <section class="group" id="packages" style="padding-top: 0;">
+    <h2><span style="color: var(--text-muted);">01</span> &nbsp;Packages</h2>
+    <p class="section-sub">Install through Package Manager with "Add package from git URL"</p>
+    <div class="grid">
+
+      <article class="card">
+        <h3>Spline Modular Kit</h3>
+        <p>Assembles modular art along a spline without deforming it. Finds the real corners from the path, places each piece rigidly, and keeps UVs correct by construction.</p>
+        <div class="badge-row"><span class="badge badge-lang">C#</span><span class="badge">Level design</span></div>
+        <a class="card-link" href="https://github.com/innocentmiau/SplineModularKit" target="_blank" rel="noopener">View on GitHub →</a>
+      </article>
+
+      <article class="card">
+        <h3>Mi Prefabs Painter</h3>
+        <p>Paints prefabs onto the surface you are looking at in the Scene view, snapping and rotating every instance to the face it lands on.</p>
+        <div class="badge-row"><span class="badge badge-lang">C#</span><span class="badge">Editor tool</span></div>
+        <a class="card-link" href="https://github.com/innocentmiau/MiPrefabsPainter" target="_blank" rel="noopener">View on GitHub →</a>
+      </article>
+
+      <article class="card">
+        <h3>Meshes Hub</h3>
+        <p>A mesh workbench inside the editor: combine selected meshes into one asset, strip the vertices and faces you don't need, and lay out new UVs without leaving Unity.</p>
+        <div class="badge-row"><span class="badge badge-lang">C#</span><span class="badge">Editor tool</span></div>
+        <a class="card-link" href="https://github.com/innocentmiau/MeshesHub" target="_blank" rel="noopener">View on GitHub →</a>
+      </article>
+
+      <article class="card">
+        <h3>MiLocalization</h3>
+        <p>JSON driven localization. Add a text key from an editor window and the strongly typed data class is generated for you, ready to use in code.</p>
+        <div class="badge-row"><span class="badge badge-lang">C#</span><span class="badge">Localization</span></div>
+        <a class="card-link" href="https://github.com/innocentmiau/MiLocalization" target="_blank" rel="noopener">View on GitHub →</a>
+      </article>
+
+      <article class="card">
+        <h3>Multi-Platform Builder</h3>
+        <p>Builds every platform you select in sequence, into a versioned and organized folder structure with one folder per platform.</p>
+        <div class="badge-row"><span class="badge badge-lang">C#</span><span class="badge">Build automation</span></div>
+        <a class="card-link" href="https://github.com/innocentmiau/MultiPlatformBuilder" target="_blank" rel="noopener">View on GitHub →</a>
+      </article>
+
+      <article class="card">
+        <h3>Assets Usage</h3>
+        <p>Scans the whole project and reports how many times each asset is referenced, surfacing the unused ones at the top.</p>
+        <div class="badge-row"><span class="badge badge-lang">C#</span><span class="badge">Editor tool</span></div>
+        <a class="card-link" href="https://github.com/innocentmiau/AssetsUsage" target="_blank" rel="noopener">View on GitHub →</a>
+      </article>
+
+    </div>
+  </section>
+
+  <section class="group" id="shaders" style="padding-top: 0;">
+    <h2><span style="color: var(--text-muted);">02</span> &nbsp;Shaders</h2>
+    <p class="section-sub">Drop-in shader files, no package needed</p>
     <div class="grid">
 
       <article class="card">
@@ -44,30 +100,17 @@
         </span>
         -->
         <h3>PixelateScreenShader</h3>
-        <p>A real-time screen-space shader that transforms a 3D game view into clean, tunable pixel art.</p>
-        <div class="badge-row"><span class="badge badge-lang">ShaderLab</span><span class="badge">Shader</span></div>
+        <p>A real-time screen-space shader for URP that transforms a 3D game view into clean, tunable pixel art.</p>
+        <div class="badge-row"><span class="badge badge-lang">ShaderLab</span><span class="badge">URP</span></div>
         <a class="card-link" href="https://github.com/innocentmiau/PixelateScreenShader" target="_blank" rel="noopener">View on GitHub →</a>
-      </article>
-
-      <article class="card">
-        <h3>AssetsUsage</h3>
-        <p>Analyzes where and how often assets are referenced throughout a Unity project.</p>
-        <div class="badge-row"><span class="badge badge-lang">C#</span><span class="badge">Editor tool</span></div>
-        <a class="card-link" href="https://github.com/innocentmiau/AssetsUsage" target="_blank" rel="noopener">View on GitHub →</a>
-      </article>
-
-      <article class="card">
-        <h3>MultiPlatformBuilder</h3>
-        <p>Automates and coordinates multi-platform builds for Unity projects.</p>
-        <div class="badge-row"><span class="badge badge-lang">C#</span><span class="badge">Build automation</span></div>
-        <a class="card-link" href="https://github.com/innocentmiau/MultiPlatformBuilder" target="_blank" rel="noopener">View on GitHub →</a>
       </article>
 
     </div>
   </section>
 
-  <section style="padding-top: 0;">
+  <section class="page-end" style="padding-top: 0;">
     <a class="btn" href="https://github.com/innocentmiau" target="_blank" rel="noopener">See all repositories on GitHub →</a>
+    <a class="to-top" href="#top">↑ Back to top</a>
   </section>
 
 </main>
