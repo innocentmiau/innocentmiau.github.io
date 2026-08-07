@@ -27,6 +27,15 @@
     "linkLabel": "View on GitHub"
   },
   {
+    "date": "2026-07-26",
+    "type": "game",
+    "title": "Cold Rush",
+    "description": "A short low-poly time attack racer. You get 15 seconds to finish the race, and freezing the clock is how you buy yourself more.",
+    "tags": ["itch.io", "Racing"],
+    "link": "https://innocentmiau.itch.io/coldrush",
+    "linkLabel": "Play on itch.io"
+    },
+  {
     "date": "2026-07-19",
     "type": "release",
     "title": "MiLocalization 1.0.0",
