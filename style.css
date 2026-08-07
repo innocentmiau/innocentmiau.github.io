@@ -388,8 +388,7 @@ h2 { font-size: 1.05rem; letter-spacing: 0.02em; margin-bottom: 0.5rem; }
   grid-template-columns: auto minmax(0, 1fr) auto;
   grid-template-areas:
     "media title icons"
-    "media desc  icons"
-    "media extra extra";
+    "media desc  icons";
   align-items: center;
   column-gap: 1rem;
   row-gap: 0.15rem;
@@ -436,8 +435,9 @@ h2 { font-size: 1.05rem; letter-spacing: 0.02em; margin-bottom: 0.5rem; }
   overflow: hidden;
 }
 
-.list-view[data-mode="list"] .card .badge-row { grid-area: extra; margin: 0.5rem 0 0.2rem; }
-.list-view[data-mode="list"] .card .card-link { grid-area: extra; margin: 0; }
+/* Badges and the link get a row each - sharing one grid area stacks them. */
+.list-view[data-mode="list"] .card .badge-row { grid-area: badges; margin: 0.7rem 0 0; }
+.list-view[data-mode="list"] .card .card-link { grid-area: link; margin: 0.55rem 0 0; }
 
 /* Collapsed rows show the icon strip only; badges and the link appear on expand. */
 .list-view[data-mode="list"] .card .badge-row,
@@ -445,10 +445,10 @@ h2 { font-size: 1.05rem; letter-spacing: 0.02em; margin-bottom: 0.5rem; }
 
 .list-view[data-mode="list"] .card.is-open {
   grid-template-areas:
-    "media title icons"
-    "media desc  icons"
-    "extra extra extra";
-  align-items: start;
+    "media title  icons"
+    "media desc   icons"
+    "badges badges badges"
+    "link   link   link";
   background: var(--surface);
 }
 
