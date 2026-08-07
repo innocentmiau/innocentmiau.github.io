@@ -81,7 +81,10 @@ a { color: inherit; text-decoration: none; }
   color: var(--text-primary);
 }
 
-.logo span { color: var(--accent); }
+.logo span { color: var(--accent); transition: color 0.2s ease; }
+
+/* The wordmark links home, so it needs a hover cue like the nav links have. */
+a.logo:hover span, a.logo:focus-visible span { color: #9cbcff; }
 
 .site-header nav { display: flex; gap: 2rem; }
 
