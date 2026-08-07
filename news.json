@@ -1,0 +1,56 @@
+[
+  {
+    "date": "2026-08-04",
+    "type": "release",
+    "title": "Spline Modular Kit 1.0.1",
+    "description": "First public release of the spline based level building tool. It assembles authored modular art along a spline without deforming it, finds the real corners from the path, and keeps UVs correct by construction.",
+    "tags": ["Unity", "Level design"],
+    "link": "https://github.com/innocentmiau/SplineModularKit",
+    "linkLabel": "View on GitHub"
+  },
+  {
+    "date": "2026-08-03",
+    "type": "release",
+    "title": "Meshes Hub 1.0.0",
+    "description": "A mesh workbench that lives inside the Unity editor. Combine selected meshes into a single asset, strip the vertices and faces you do not need, and lay out new UVs without leaving the editor.",
+    "tags": ["Unity", "Editor tool"],
+    "link": "https://github.com/innocentmiau/MeshesHub",
+    "linkLabel": "View on GitHub"
+  },
+  {
+    "date": "2026-07-28",
+    "type": "release",
+    "title": "Mi Prefabs Painter 1.1.0",
+    "description": "Paints prefabs onto whatever surface you are looking at in the Scene view, snapping and rotating every instance to the face it lands on.",
+    "tags": ["Unity", "Editor tool"],
+    "link": "https://github.com/innocentmiau/MiPrefabsPainter",
+    "linkLabel": "View on GitHub"
+  },
+  {
+    "date": "2026-07-19",
+    "type": "release",
+    "title": "MiLocalization 1.0.0",
+    "description": "JSON driven localization for Unity. Add a text key from an editor window and the strongly typed data class is generated for you, ready to use in code.",
+    "tags": ["Unity", "Localization"],
+    "link": "https://github.com/innocentmiau/MiLocalization",
+    "linkLabel": "View on GitHub"
+  },
+  {
+    "date": "2026-07-11",
+    "type": "release",
+    "title": "Multi-Platform Builder 1.0.1",
+    "description": "Builds every platform you select in sequence, into a versioned and organized folder structure with one folder per platform.",
+    "tags": ["Unity", "Build automation"],
+    "link": "https://github.com/innocentmiau/MultiPlatformBuilder",
+    "linkLabel": "View on GitHub"
+  },
+  {
+    "date": "2026-07-09",
+    "type": "release",
+    "title": "Assets Usage 1.0.0",
+    "description": "Scans the whole project and reports how many times each asset is referenced, surfacing the unused ones at the top.",
+    "tags": ["Unity", "Editor tool"],
+    "link": "https://github.com/innocentmiau/AssetsUsage",
+    "linkLabel": "View on GitHub"
+  }
+]

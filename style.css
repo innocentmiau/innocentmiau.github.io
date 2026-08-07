@@ -884,3 +884,107 @@ a:focus-visible, .btn:focus-visible {
   /* The header stacks into two rows here, so anchors need more clearance. */
   [id] { scroll-margin-top: 8.5rem; }
 }
+
+/* ---------- news ---------- */
+
+.news-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 0.6rem;
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.news-meta time { margin-left: auto; text-transform: none; letter-spacing: 0; }
+
+.news-icon { display: inline-flex; }
+
+.news-icon svg {
+  width: 0.95rem;
+  height: 0.95rem;
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* -- full feed: month groups on a timeline -- */
+
+.feed-month {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 2.4rem 0 0.9rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.feed-month:first-child { margin-top: 0; }
+
+.feed { list-style: none; margin: 0; padding: 0; }
+
+.feed-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 3.2rem minmax(0, 1fr);
+  gap: 1.1rem;
+  padding: 1.1rem 0;
+}
+
+/* The spine sits in the gutter between the date and the body, so it never
+   crosses text and the date needs no opaque backing plate to hide it -
+   which matters here, since a solid plate would punch a hole in the nebula. */
+.feed-item::before {
+  content: "";
+  position: absolute;
+  left: calc(3.2rem + 0.55rem);
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--border);
+}
+
+/* Node on the spine, level with each entry's heading. */
+.feed-item::after {
+  content: "";
+  position: absolute;
+  left: calc(3.2rem + 0.55rem - 2px);
+  top: 1.5rem;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent-dim);
+}
+
+.feed-item:first-child::before { top: 1.6rem; }
+.feed-item:last-child::before { bottom: calc(100% - 1.6rem); }
+
+.feed-date {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 0.15rem;
+  font-family: var(--font-display);
+}
+
+.feed-day { font-size: 1.1rem; color: var(--text-primary); line-height: 1.1; }
+.feed-mon { font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); }
+
+.feed-body { min-width: 0; }
+.feed-body h4 { font-family: var(--font-display); font-weight: 500; font-size: 1rem; margin: 0 0 0.4rem; }
+.feed-body p { font-size: 0.88rem; color: var(--text-secondary); margin: 0 0 0.9rem; }
+.feed-body .news-meta { margin-bottom: 0.35rem; }
+.feed-body .badge-row { margin-bottom: 0.6rem; }
+
+@media (max-width: 600px) {
+  .feed-item { grid-template-columns: 2.6rem minmax(0, 1fr); gap: 0.8rem; }
+  .feed-item::before { left: calc(2.6rem + 0.4rem); }
+  .feed-item::after { left: calc(2.6rem + 0.4rem - 2px); }
+}

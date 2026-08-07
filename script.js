@@ -351,3 +351,174 @@
 
   setMode(current, false);
 })();
+
+/* ---------- news feed ----------
+   Entries live in news.json so they can be edited by hand without touching
+   any markup. Anything with [data-news] gets filled in:
+     data-news="latest" data-limit="3"  -> cards, newest first
+     data-news="feed"                   -> full timeline grouped by month
+   Sorting happens here, so the order inside the file does not matter. */
+(function () {
+  var mounts = [].slice.call(document.querySelectorAll('[data-news]'));
+  if (!mounts.length) return;
+
+  var TYPES = {
+    release: {
+      label: 'Release',
+      svg: '<svg viewBox="0 0 24 24"><path d="M21 8.4v7.2a1.4 1.4 0 0 1-.75 1.24l-7.5 3.9a1.6 1.6 0 0 1-1.5 0l-7.5-3.9A1.4 1.4 0 0 1 3 15.6V8.4a1.4 1.4 0 0 1 .75-1.24l7.5-3.9a1.6 1.6 0 0 1 1.5 0l7.5 3.9A1.4 1.4 0 0 1 21 8.4z"/><path d="M3.3 7.7 12 12.2l8.7-4.5M12 12.2V21"/></svg>'
+    },
+    tool: {
+      label: 'Tool',
+      svg: '<svg viewBox="0 0 24 24"><path d="M15.6 3.5a5.5 5.5 0 0 0-5 8.7L3.9 18.9a1.7 1.7 0 0 0 2.4 2.4l6.7-6.7a5.5 5.5 0 0 0 6.9-7.2l-3 3-2.4-2.4 3-3a5.5 5.5 0 0 0-1.9-1.5z"/></svg>'
+    },
+    game: {
+      label: 'Game',
+      svg: '<svg viewBox="0 0 24 24"><rect x="2.5" y="7" width="19" height="10.5" rx="4"/><path d="M7 10.5v3.5M5.25 12.25h3.5M15.6 11.4h.01M18 13.6h.01"/></svg>'
+    },
+    shader: {
+      label: 'Shader',
+      svg: '<svg viewBox="0 0 24 24"><path d="m12 3 8.5 4.6L12 12.2 3.5 7.6z"/><path d="m3.5 12.2 8.5 4.6 8.5-4.6M3.5 16.4 12 21l8.5-4.6"/></svg>'
+    },
+    video: {
+      label: 'Video',
+      svg: '<svg viewBox="0 0 24 24"><rect x="2.5" y="4.5" width="19" height="15" rx="3"/><path d="m10 9.2 5 2.8-5 2.8z"/></svg>'
+    },
+    jam: {
+      label: 'Game jam',
+      svg: '<svg viewBox="0 0 24 24"><circle cx="12" cy="13.5" r="7.5"/><path d="M12 9.5v4l2.5 1.5M9.5 2.5h5M12 2.5v3"/></svg>'
+    },
+    post: {
+      label: 'Post',
+      svg: '<svg viewBox="0 0 24 24"><path d="M6 2.5h8l5 5v14H6z"/><path d="M14 2.5v5h5M9 12h6M9 15.5h6M9 8.5h2"/></svg>'
+    },
+    update: {
+      label: 'Update',
+      svg: '<svg viewBox="0 0 24 24"><path d="M20.5 12a8.5 8.5 0 1 1-2.5-6"/><path d="M20.5 4.5V10h-5.5"/></svg>'
+    }
+  };
+
+  var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'];
+  var SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+               'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  // Parsed as plain numbers rather than new Date(str), which would shift the
+  // day backwards for anyone in a timezone behind UTC.
+  function parts(dateStr) {
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(dateStr || '').trim());
+    if (!m) return null;
+    return { y: +m[1], m: +m[2] - 1, d: +m[3] };
+  }
+
+  function typeOf(entry) {
+    return TYPES[entry.type] || TYPES.update;
+  }
+
+  function badges(entry) {
+    if (!entry.tags || !entry.tags.length) return '';
+    var out = '';
+    for (var i = 0; i < entry.tags.length; i++) {
+      out += '<span class="badge">' + esc(entry.tags[i]) + '</span>';
+    }
+    return '<div class="badge-row">' + out + '</div>';
+  }
+
+  function linkOf(entry) {
+    if (!entry.link) return '';
+    var label = esc(entry.linkLabel || 'Read more');
+    return '<a class="card-link" href="' + esc(entry.link) +
+           '" target="_blank" rel="noopener">' + label + ' &rarr;</a>';
+  }
+
+  function icon(entry) {
+    var t = typeOf(entry);
+    return '<span class="news-icon" role="img" aria-label="' + esc(t.label) + '">' + t.svg + '</span>';
+  }
+
+  function renderCards(mount, entries) {
+    var html = '<div class="grid">';
+    entries.forEach(function (e) {
+      var p = parts(e.date);
+      var when = p ? SHORT[p.m] + ' ' + p.d + ', ' + p.y : esc(e.date);
+      html += '<article class="card">' +
+        '<div class="news-meta">' + icon(e) +
+          '<span>' + esc(typeOf(e).label) + '</span>' +
+          '<time datetime="' + esc(e.date) + '">' + when + '</time>' +
+        '</div>' +
+        '<h3>' + esc(e.title) + '</h3>' +
+        '<p>' + esc(e.description) + '</p>' +
+        badges(e) + linkOf(e) +
+      '</article>';
+    });
+    mount.innerHTML = html + '</div>';
+  }
+
+  function renderFeed(mount, entries) {
+    var html = '';
+    var openGroup = false;
+    var lastKey = '';
+
+    entries.forEach(function (e) {
+      var p = parts(e.date);
+      var key = p ? p.y + '-' + p.m : 'undated';
+      if (key !== lastKey) {
+        if (openGroup) html += '</ol>';
+        var heading = p ? MONTHS[p.m] + ' ' + p.y : 'Undated';
+        html += '<h3 class="feed-month">' + esc(heading) + '</h3><ol class="feed">';
+        openGroup = true;
+        lastKey = key;
+      }
+      html += '<li class="feed-item">' +
+        '<div class="feed-date"><span class="feed-day">' + (p ? String(p.d) : '&mdash;') +
+          '</span><span class="feed-mon">' + (p ? SHORT[p.m] : '') + '</span></div>' +
+        '<div class="feed-body">' +
+          '<div class="news-meta">' + icon(e) + '<span>' + esc(typeOf(e).label) + '</span></div>' +
+          '<h4>' + esc(e.title) + '</h4>' +
+          '<p>' + esc(e.description) + '</p>' +
+          badges(e) + linkOf(e) +
+        '</div>' +
+      '</li>';
+    });
+
+    if (openGroup) html += '</ol>';
+    mount.innerHTML = html || '<p class="section-sub">Nothing posted yet.</p>';
+  }
+
+  fetch('news.json', { cache: 'no-cache' })
+    .then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
+    .then(function (data) {
+      var entries = (Array.isArray(data) ? data : data.entries || []).slice();
+
+      entries.sort(function (a, b) {
+        return String(b.date).localeCompare(String(a.date));
+      });
+
+      mounts.forEach(function (mount) {
+        var limit = parseInt(mount.getAttribute('data-limit'), 10);
+        var slice = limit > 0 ? entries.slice(0, limit) : entries;
+        if (!slice.length) {
+          mount.innerHTML = '<p class="section-sub">Nothing posted yet.</p>';
+        } else if (mount.getAttribute('data-news') === 'feed') {
+          renderFeed(mount, slice);
+        } else {
+          renderCards(mount, slice);
+        }
+      });
+    })
+    .catch(function () {
+      // Most often this is file:// - fetch needs a real HTTP origin.
+      mounts.forEach(function (mount) {
+        mount.innerHTML = '<p class="section-sub">Could not load news.json. ' +
+          'If you are previewing locally, serve the folder over HTTP rather than opening the file directly.</p>';
+      });
+    });
+})();
