@@ -124,32 +124,7 @@
   var LABELS = { scroll: 'Scroll', grid: 'Grid', list: 'List' };
   var smooth = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
 
-  var ICONS = {
-    web: {
-      label: 'Playable in browser',
-      svg: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.5 3.8 5.6 3.8 9S14.5 18.5 12 21c-2.5-2.5-3.8-5.6-3.8-9S9.5 5.5 12 3z"/></svg>'
-    },
-    windows: {
-      label: 'Windows download',
-      svg: '<svg viewBox="0 0 24 24" class="icon-solid"><path d="M3 5.7 10.2 4.7v6.6H3zM11.4 4.5 21 3.2v8.1h-9.6zM3 12.7h7.2v6.6L3 18.3zM11.4 12.7H21v8.1l-9.6-1.3z"/></svg>'
-    },
-    linux: {
-      label: 'Linux download',
-      svg: '<svg viewBox="0 0 24 24" class="icon-solid"><path d="M12 2.5c1.9 0 3.2 1.5 3.2 3.6 0 1.3.4 2.1 1.2 3.3 1.2 1.9 2.1 3.4 2.1 5.4 0 3-2.7 4.7-6.5 4.7s-6.5-1.7-6.5-4.7c0-2 .9-3.5 2.1-5.4.8-1.2 1.2-2 1.2-3.3C8.8 4 10.1 2.5 12 2.5zm-1.6 3.1a.85.85 0 1 0 0 1.7.85.85 0 0 0 0-1.7zm3.2 0a.85.85 0 1 0 0 1.7.85.85 0 0 0 0-1.7zM12 8.6c-.8 0-1.5.4-1.5.9s.7.8 1.5.8 1.5-.3 1.5-.8-.7-.9-1.5-.9z"/></svg>'
-    },
-    unity: {
-      label: 'Unity package',
-      svg: '<svg viewBox="0 0 24 24"><path d="M12 2.6 20.5 7.3v9.4L12 21.4 3.5 16.7V7.3z"/><path d="M12 12V2.6M12 12l8.5 4.7M12 12l-8.5 4.7"/></svg>'
-    },
-    github: {
-      label: 'Source on GitHub',
-      svg: '<svg viewBox="0 0 24 24" class="icon-solid"><path d="M12 2.2a9.8 9.8 0 0 0-3.1 19.1c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.3-1.3-3.3-1.3-.5-1.1-1.1-1.4-1.1-1.4-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.3-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-4.9 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.8-2.4 4.6-4.6 4.9.3.3.7 1 .7 1.9v2.8c0 .3.2.6.7.5A9.8 9.8 0 0 0 12 2.2z"/></svg>'
-    },
-    itch: {
-      label: 'On itch.io',
-      svg: '<svg viewBox="0 0 24 24"><path d="M3.5 8.6 6 4.9h12l2.5 3.7v1.2a2.2 2.2 0 0 1-4.4 0 2.2 2.2 0 0 1-2.2 2.2h-3.8a2.2 2.2 0 0 1-2.2-2.2 2.2 2.2 0 0 1-4.4 0z"/><path d="M5.3 12.1v6.3c0 .5.4.8.9.8h11.6c.5 0 .9-.3.9-.8v-6.3"/><path d="M9.7 19.2v-3.5h4.6v3.5"/></svg>'
-    }
-  };
+  var ICONS = window.SITE_ICONS;
 
   function readStored() {
     try {
@@ -362,51 +337,14 @@
   var mounts = [].slice.call(document.querySelectorAll('[data-news]'));
   if (!mounts.length) return;
 
-  var TYPES = {
-    release: {
-      label: 'Release',
-      svg: '<svg viewBox="0 0 24 24"><path d="M21 8.4v7.2a1.4 1.4 0 0 1-.75 1.24l-7.5 3.9a1.6 1.6 0 0 1-1.5 0l-7.5-3.9A1.4 1.4 0 0 1 3 15.6V8.4a1.4 1.4 0 0 1 .75-1.24l7.5-3.9a1.6 1.6 0 0 1 1.5 0l7.5 3.9A1.4 1.4 0 0 1 21 8.4z"/><path d="M3.3 7.7 12 12.2l8.7-4.5M12 12.2V21"/></svg>'
-    },
-    tool: {
-      label: 'Tool',
-      svg: '<svg viewBox="0 0 24 24"><path d="M15.6 3.5a5.5 5.5 0 0 0-5 8.7L3.9 18.9a1.7 1.7 0 0 0 2.4 2.4l6.7-6.7a5.5 5.5 0 0 0 6.9-7.2l-3 3-2.4-2.4 3-3a5.5 5.5 0 0 0-1.9-1.5z"/></svg>'
-    },
-    game: {
-      label: 'Game',
-      svg: '<svg viewBox="0 0 24 24"><rect x="2.5" y="7" width="19" height="10.5" rx="4"/><path d="M7 10.5v3.5M5.25 12.25h3.5M15.6 11.4h.01M18 13.6h.01"/></svg>'
-    },
-    shader: {
-      label: 'Shader',
-      svg: '<svg viewBox="0 0 24 24"><path d="m12 3 8.5 4.6L12 12.2 3.5 7.6z"/><path d="m3.5 12.2 8.5 4.6 8.5-4.6M3.5 16.4 12 21l8.5-4.6"/></svg>'
-    },
-    video: {
-      label: 'Video',
-      svg: '<svg viewBox="0 0 24 24"><rect x="2.5" y="4.5" width="19" height="15" rx="3"/><path d="m10 9.2 5 2.8-5 2.8z"/></svg>'
-    },
-    jam: {
-      label: 'Game jam',
-      svg: '<svg viewBox="0 0 24 24"><circle cx="12" cy="13.5" r="7.5"/><path d="M12 9.5v4l2.5 1.5M9.5 2.5h5M12 2.5v3"/></svg>'
-    },
-    post: {
-      label: 'Post',
-      svg: '<svg viewBox="0 0 24 24"><path d="M6 2.5h8l5 5v14H6z"/><path d="M14 2.5v5h5M9 12h6M9 15.5h6M9 8.5h2"/></svg>'
-    },
-    update: {
-      label: 'Update',
-      svg: '<svg viewBox="0 0 24 24"><path d="M20.5 12a8.5 8.5 0 1 1-2.5-6"/><path d="M20.5 4.5V10h-5.5"/></svg>'
-    }
-  };
+  var TYPES = window.SITE_ICONS;
 
   var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
                 'July', 'August', 'September', 'October', 'November', 'December'];
   var SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-  function esc(s) {
-    return String(s == null ? '' : s)
-      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-  }
+  var esc = window.escapeHtml;
 
   // Parsed as plain numbers rather than new Date(str), which would shift the
   // day backwards for anyone in a timezone behind UTC.
@@ -457,6 +395,7 @@
       '</article>';
     });
     mount.innerHTML = html + '</div>';
+    window.decorateBadges(mount);
   }
 
   function renderFeed(mount, entries) {
@@ -488,6 +427,7 @@
 
     if (openGroup) html += '</ol>';
     mount.innerHTML = html || '<p class="section-sub">Nothing posted yet.</p>';
+    window.decorateBadges(mount);
   }
 
   fetch('news.json', { cache: 'no-cache' })
@@ -521,4 +461,10 @@
           'If you are previewing locally, serve the folder over HTTP rather than opening the file directly.</p>';
       });
     });
+})();
+
+/* Badges that ship in the HTML get their icons on load. News badges are
+   handled by the renderer, since they arrive after this runs. */
+(function () {
+  window.decorateBadges(document);
 })();
