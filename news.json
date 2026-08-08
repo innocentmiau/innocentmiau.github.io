@@ -1,5 +1,17 @@
 [
   {
+    "date": "2026-08-08",
+    "type": "release",
+    "title": "Multi-Platform Builder 1.1.0",
+    "description": "Adds build reports that break the finished build down asset by asset, sorted by size, so the textures and meshes eating the most space are obvious before you start optimizing.",
+    "tags": [
+      "Unity",
+      "Build automation"
+    ],
+    "link": "https://github.com/innocentmiau/MultiPlatformBuilder",
+    "linkLabel": "View on GitHub"
+  },
+  {
     "date": "2026-08-04",
     "type": "release",
     "title": "Spline Modular Kit 1.0.1",
