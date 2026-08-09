@@ -1,4 +1,13 @@
-[
+
+  {
+    "date": "2026-08-09",
+    "type": "release",
+    "title": "Multi-Platform Builder 1.9.1",
+    "description": "Adds Android and WebGL to the platform list, with optional per-build platform switching so scripting symbols resolve correctly. Build reports now compare against previous builds and drill down by folder.",
+    "tags": ["Unity", "Build automation"],
+    "link": "https://github.com/innocentmiau/MultiPlatformBuilder",
+    "linkLabel": "View on GitHub"
+  },
   {
     "date": "2026-08-08",
     "type": "release",
