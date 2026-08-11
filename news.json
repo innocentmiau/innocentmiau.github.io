@@ -1,5 +1,17 @@
 [
   {
+    "date": "2026-08-11",
+    "type": "release",
+    "title": "Componentry 1.0.0",
+    "description": "Puts a row of buttons at the top of the Unity Inspector, one per component. Click one to show only it, search components by name, and drag to reorder or copy them between objects.",
+    "tags": [
+      "Unity",
+      "Editor tool"
+    ],
+    "link": "https://github.com/innocentmiau/Componentry",
+    "linkLabel": "View on GitHub"
+  },
+  {
     "date": "2026-08-09",
     "type": "release",
     "title": "Multi-Platform Builder 1.9.2",
