@@ -2,6 +2,18 @@
   {
     "date": "2026-08-22",
     "type": "release",
+    "title": "MiVertexAnimation 1.0.0",
+    "description": "Bakes a SkinnedMeshRenderer and its animation clips into textures, so a crowd animates entirely on the GPU with no Animator, no bones and no per-frame skinning. The baker window previews the result before committing to a bake, places animation events on a track, and can leave a region of the mesh - a head, a torso - still drivable from script afterwards.",
+    "tags": [
+      "Unity",
+      "Editor tool"
+    ],
+    "link": "https://github.com/innocentmiau/MiVertexAnimation",
+    "linkLabel": "View on GitHub"
+  },
+  {
+    "date": "2026-08-22",
+    "type": "release",
     "title": "Componentry 1.0.1",
     "description": "Fixes component copying: the copy button is disabled with a reason when only the Transform is picked, Paste Rotation accepts a rotation copied from the Inspector's own Rotation field, and the button icons resolve wherever the package is installed. Entering Play mode with Reload Domain disabled no longer leaves stale state behind, and adding a component from a locked Inspector puts it on the object the bar is showing.",
     "tags": [
