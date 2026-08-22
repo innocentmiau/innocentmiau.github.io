@@ -2,6 +2,18 @@
   {
     "date": "2026-08-22",
     "type": "release",
+    "title": "MiVertexAnimation 1.1.0",
+    "description": "Adds Reset Bake to the bake settings panel, which puts clip selection, frame ranges, events, sections and output settings back to their defaults without touching anything already written to disk. The bake settings asset also moves onto the Source row, behind a button that marks itself when a settings asset is loaded, instead of taking a section at the top of the window.",
+    "tags": [
+      "Unity",
+      "Editor tool"
+    ],
+    "link": "https://github.com/innocentmiau/MiVertexAnimation",
+    "linkLabel": "View on GitHub"
+  },
+  {
+    "date": "2026-08-22",
+    "type": "release",
     "title": "MiVertexAnimation 1.0.0",
     "description": "Bakes a SkinnedMeshRenderer and its animation clips into textures, so a crowd animates entirely on the GPU with no Animator, no bones and no per-frame skinning. The baker window previews the result before committing to a bake, places animation events on a track, and can leave a region of the mesh - a head, a torso - still drivable from script afterwards.",
     "tags": [
