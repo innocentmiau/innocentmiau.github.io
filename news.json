@@ -2,6 +2,18 @@
   {
     "date": "2026-08-23",
     "type": "release",
+    "title": "MiVertexAnimation 1.3.0",
+    "description": "Adds a Demo sample, importable from the Package Manager: a crowd scene with a character that turns to follow an orbiting target, a CC0 rig to bake it from, and all four section-driving modes on one component - point it at your own baked prefab and the scene demonstrates that instead. Samples now live in Samples~ so they stop compiling in every project that installs the package, and the baker no longer confuses two clips that share a name, which used to make frame ranges and events written for one overwrite the other's.",
+    "tags": [
+      "Unity",
+      "Editor tool"
+    ],
+    "link": "https://github.com/innocentmiau/MiVertexAnimation",
+    "linkLabel": "View on GitHub"
+  },
+  {
+    "date": "2026-08-23",
+    "type": "release",
     "title": "MiVertexAnimation 1.2.0",
     "description": "Adds an LOD Group section that bakes the source mesh's own LOD levels into a single prefab, so a crowd keeps GPU instancing and still drops vertex work at distance - every level shares one texture set, because they share a vertex buffer. The prefab's mesh now also holds the baked pose, so a shader that is still compiling draws the character standing still instead of its bind pose at whatever scale the source file was authored in.",
     "tags": [
