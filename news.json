@@ -1,5 +1,17 @@
 [
   {
+    "date": "2026-08-23",
+    "type": "release",
+    "title": "MiVertexAnimation 1.2.0",
+    "description": "Adds an LOD Group section that bakes the source mesh's own LOD levels into a single prefab, so a crowd keeps GPU instancing and still drops vertex work at distance - every level shares one texture set, because they share a vertex buffer. The prefab's mesh now also holds the baked pose, so a shader that is still compiling draws the character standing still instead of its bind pose at whatever scale the source file was authored in.",
+    "tags": [
+      "Unity",
+      "Editor tool"
+    ],
+    "link": "https://github.com/innocentmiau/MiVertexAnimation",
+    "linkLabel": "View on GitHub"
+  },
+  {
     "date": "2026-08-22",
     "type": "release",
     "title": "MiVertexAnimation 1.1.0",
