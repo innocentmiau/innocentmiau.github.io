@@ -1,5 +1,53 @@
 [
   {
+    "date": "2026-08-30",
+    "type": "release",
+    "title": "MiVertexAnimation 1.4.0",
+    "description": "Adds hold points and speed control to playback. An animation can now freeze or stop on a given frame instead of looping straight back, so an enemy that falls stays down on its last frame for as long as you want. Clip speed is settable globally or per clip, which lets one character run faster without touching the timing its idle and attack were authored at.",
+    "tags": [
+      "Unity",
+      "Editor tool"
+    ],
+    "link": "https://github.com/innocentmiau/MiVertexAnimation",
+    "linkLabel": "View on GitHub"
+  },
+  {
+    "date": "2026-08-30",
+    "type": "release",
+    "title": "MiVertexAnimation 1.3.1",
+    "description": "Fixes the shader clock drifting out of sync during Play mode when scene loads are swapped, which left animations reading from the wrong point in the bake.",
+    "tags": [
+      "Unity",
+      "Editor tool"
+    ],
+    "link": "https://github.com/innocentmiau/MiVertexAnimation",
+    "linkLabel": "View on GitHub"
+  },
+  {
+    "date": "2026-08-29",
+    "type": "jam",
+    "title": "DeadWeight",
+    "description": "Rescue civilians and recruit them to your team, then unlock their traits to find out who is worth keeping. Some traits are hidden and some are bad, so the team you build is the risk you take. Made for Brackeys Game Jam 2026.2 on the theme 'Trust No One'; the jam build is still closer to a survival shooter than the full recruitment loop.",
+    "tags": [
+      "itch.io",
+      "Action"
+    ],
+    "link": "https://innocentmiau.itch.io/deadweight",
+    "linkLabel": "Play on itch.io"
+  },
+    {
+    "date": "2026-08-24",
+    "type": "release",
+    "title": "MiPackages",
+    "description": "A hub for every package I maintain, in one Unity window. Each row shows the version the project currently has, an Add button for the ones it does not, and a Manage button that jumps straight to it in the Package Manager.",
+    "tags": [
+      "Unity",
+      "Editor tool"
+    ],
+    "link": "https://github.com/innocentmiau/MiPackages",
+    "linkLabel": "View on GitHub"
+  },
+  {
     "date": "2026-08-23",
     "type": "release",
     "title": "MiVertexAnimation 1.3.0",
