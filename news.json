@@ -1,5 +1,41 @@
 [
   {
+    "date": "2026-09-01",
+    "type": "release",
+    "title": "MiHordeTraffic 0.1.0",
+    "description": "Replaces per-agent A* with one flow field expansion that serves the whole crowd, and prices every cell by how fast bodies actually cross it, so a jammed route becomes expensive and a second one opens without anything having to notice the jam or decide a detour is worthwhile. Measured at 5000 bodies it holds a 12.08 ms mean frame against NavMeshAgent's 18.68 ms, and ships a runtime switch back to stock agents so that comparison can be rerun rather than believed.",
+    "tags": [
+      "Unity",
+      "Crowd AI"
+    ],
+    "link": "https://github.com/innocentmiau/MiHordeTraffic",
+    "linkLabel": "View on GitHub"
+  },
+  {
+    "date": "2026-08-31",
+    "type": "release",
+    "title": "MiHordeCrowd 1.0.0",
+    "description": "Adds the parts a horde needs beyond pushing agents apart. Agents settle once enough of the neighbours ahead of them have settled, so a pack converging on one target comes to rest instead of grinding against itself, a detour steer sends agents stuck behind a jam around it rather than queueing, and repathing is paced by distance to goal so the ranks about to reach the player update far more often than the ones still crossing the map.",
+    "tags": [
+      "Unity",
+      "Crowd AI"
+    ],
+    "link": "https://github.com/innocentmiau/MiHordeCrowd",
+    "linkLabel": "View on GitHub"
+  },
+  {
+    "date": "2026-08-31",
+    "type": "release",
+    "title": "MiHordeFlow 0.2.0",
+    "description": "Replaces NavMeshAgent's built-in local avoidance with a reactive separation pass running as a Burst job on the worker threads. Agents keep the NavMeshAgent for pathing and are pushed apart by a clamped force proportional to how far they overlap, so a crowd squeezing through a doorway compresses and relaxes instead of snapping, and groups let flyers, melee and slow ranged run different planes and update intervals in one scene.",
+    "tags": [
+      "Unity",
+      "Crowd AI"
+    ],
+    "link": "https://github.com/innocentmiau/MiHordeFlow",
+    "linkLabel": "View on GitHub"
+  },
+  {
     "date": "2026-08-30",
     "type": "release",
     "title": "MiVertexAnimation 1.4.0",
