@@ -368,14 +368,20 @@ a.logo:hover span, a.logo:focus-visible span { color: #9cbcff; }
 
 /* ---------- layout ---------- */
 
+/* The column sizes to the card grids, not to prose. Every run of text sets
+   its own narrower max-width (.hero h1, .hero-sub, the section paragraphs),
+   so widening this buys grid columns without stretching a line of body copy
+   past a comfortable measure. */
 main {
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
   position: relative;
 }
 
-section { padding: 5rem 0; }
+/* Fluid rather than fixed: the gap between sections should shrink with the
+   viewport instead of holding 80px on a phone. */
+section { padding: clamp(2rem, 3.5vw, 3rem) 0; }
 
 .section-border { border-bottom: 1px solid var(--border); }
 
@@ -383,7 +389,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 500; margin: 0; }
 
 h2 { font-size: 1.05rem; letter-spacing: 0.02em; margin-bottom: 0.5rem; }
 
-.section-sub { color: var(--text-muted); font-size: 0.85rem; margin: 0 0 2.5rem; }
+.section-sub { color: var(--text-muted); font-size: 0.85rem; margin: 0 0 1.5rem; }
 
 .eyebrow {
   font-family: var(--font-display);
@@ -396,7 +402,7 @@ h2 { font-size: 1.05rem; letter-spacing: 0.02em; margin-bottom: 0.5rem; }
 
 /* ---------- hero ---------- */
 
-.hero { padding: 6rem 0 5rem; }
+.hero { padding: clamp(2.75rem, 5vw, 4rem) 0 clamp(2rem, 3.5vw, 3rem); }
 
 .hero h1 {
   font-size: clamp(2rem, 5vw, 3rem);
@@ -409,7 +415,7 @@ h2 { font-size: 1.05rem; letter-spacing: 0.02em; margin-bottom: 0.5rem; }
   max-width: 520px;
   color: var(--text-secondary);
   font-size: 1.05rem;
-  margin: 0 0 2.5rem;
+  margin: 0 0 1.75rem;
 }
 
 .hero-links { display: flex; gap: 0.75rem; flex-wrap: wrap; }
@@ -441,7 +447,7 @@ h2 { font-size: 1.05rem; letter-spacing: 0.02em; margin-bottom: 0.5rem; }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
   gap: 1.1rem;
 }
 
@@ -547,7 +553,7 @@ h2 { font-size: 1.05rem; letter-spacing: 0.02em; margin-bottom: 0.5rem; }
 
 /* -- shared -- */
 
-.list-view { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.1rem; }
+.list-view { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1.1rem; }
 
 /* -- 1. scroll: peek shelf -- */
 
@@ -880,8 +886,6 @@ a:focus-visible, .btn:focus-visible {
   .site-header { padding: 1.1rem 1.4rem; flex-direction: column; gap: 0.8rem; }
   .site-header nav { gap: 1.2rem; }
   main { padding: 0 1.4rem; }
-  section { padding: 3rem 0; }
-  .hero { padding: 3.5rem 0 3rem; }
   .row-list li { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
   .row-desc { text-align: left; }
   /* The header stacks into two rows here, so anchors need more clearance. */
@@ -1072,4 +1076,62 @@ a:focus-visible, .btn:focus-visible {
 @media (max-width: 600px) {
   .cal-label { width: 100%; margin-bottom: 0.1rem; }
   .cal-btn { padding: 0.3rem 0.6rem; font-size: 0.72rem; }
+}
+
+/* ---------- webgl sky ----------
+   blackhole.js appends .sky-canvas here and adds .webgl once its first frame
+   is up, so the CSS starfield above is what shows on mobile, without WebGL2,
+   or if the three.js CDN is unreachable. The swap is a crossfade rather than
+   a pop; .webgl-done then display:none's the old layers a beat later, which
+   is what actually stops the planet-rotation keyframes still ticking behind
+   an opaque canvas. */
+
+/* Both skies fade up from the page's own background rather than one showing
+   for a few frames and cutting to the other. blackhole.js adds .ready to
+   whichever background wins - the shader once it has drawn, the CSS sky if the
+   shader is never going to run. The .sky-fade gate is set by an inline script
+   in <head>, so with JS off the starfield simply shows as it always did
+   instead of staying dark forever. */
+.sky-fade .starfield { opacity: 0; }
+
+.sky-fade .starfield.ready {
+  opacity: 1;
+  transition: opacity 1.1s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sky-fade .starfield.ready { transition: none; }
+}
+
+.sky-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+
+.starfield.webgl .sky-canvas { opacity: 1; }
+
+/* Outranks .star's own animation, so the keyframes stop driving opacity and
+   the fade below is free to take it to zero. */
+.starfield.webgl > *:not(.sky-canvas) {
+  animation: none;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+
+.starfield.webgl::before,
+.starfield.webgl::after {
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+
+.starfield.webgl-done > *:not(.sky-canvas) { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sky-canvas,
+  .starfield.webgl > *:not(.sky-canvas) { transition: none; }
 }
