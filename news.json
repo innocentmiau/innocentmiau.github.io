@@ -1,5 +1,41 @@
 [
   {
+    "date": "2026-09-03",
+    "type": "release",
+    "title": "MiHordeAnimation 0.1.0",
+    "description": "Drives MiVertexAnimation clips from a MiHordeTraffic crowd out of one manager, rather than a script on every body measuring its own distance to a target. Bodies register once and are never dispatched again: a transform job and a Burst scan hand back only the handful whose animation should change, so a crowd of thousands standing still costs nothing at all, and the proximity attack it ships with plays a clip on every body that comes into range and sits out a cooldown.",
+    "tags": [
+      "Unity",
+      "Crowd AI"
+    ],
+    "link": "https://github.com/innocentmiau/MiHordeAnimation",
+    "linkLabel": "View on GitHub"
+  },
+  {
+    "date": "2026-09-03",
+    "type": "release",
+    "title": "MiHordeTraffic 0.2.0",
+    "description": "Fixes the two signals the crowd steers on that had never once reached anything. The stall timer was cleared and read back in the same frame, so a body could only settle by standing inside the arrive radius - the one case the stall path exists to replace - and the unobstructed speed ramp that congestion prices progress against sat at about a tenth of a walking pace, so every jam on the map measured as flowing perfectly. Adds an overlap tolerance that gives separation somewhere to stop instead of churning forever, and a phases table in the session report that attributes main thread time stage by stage: the first thing it was used for said a 30 ms frame at 5000 bodies was 2.4 ms of crowd and the rest a prefab that had lost its LODGroup.",
+    "tags": [
+      "Unity",
+      "Crowd AI"
+    ],
+    "link": "https://github.com/innocentmiau/MiHordeTraffic",
+    "linkLabel": "View on GitHub"
+  },
+  {
+    "date": "2026-09-03",
+    "type": "release",
+    "title": "MiVertexAnimation 1.4.1",
+    "description": "Fixes the animator driver walking off its own list whenever a one-shot finished into a clip with no events on it, which is to say whenever an ordinary attack-back-to-idle call completed. Registering and unregistering are a subscript rather than a scan now, so joining the driver and dropping out cost the same whatever else is playing, instead of growing with the square of the crowd once thousands of bodies all start an attack.",
+    "tags": [
+      "Unity",
+      "Editor tool"
+    ],
+    "link": "https://github.com/innocentmiau/MiVertexAnimation",
+    "linkLabel": "View on GitHub"
+  },
+  {
     "date": "2026-09-01",
     "type": "release",
     "title": "MiHordeTraffic 0.1.0",
