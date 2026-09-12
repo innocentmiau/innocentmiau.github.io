@@ -1,5 +1,197 @@
 [
   {
+    "date": "2026-09-12",
+    "type": "release",
+    "title": "Componentry 1.0.2",
+    "description": "Fixes the Inspector emptying whenever a component chip is picked after leaving play mode. An editor that dies while the scene is reloading leaves its box behind in the Inspector's list and every box after it was counted one place out, so boxes are matched to the object each one is editing rather than to their place in the list now, and the bar is rebuilt on a play mode change instead of being left pointed at components the reload has replaced.",
+    "tags": [
+      "Unity",
+      "Editor tool"
+    ],
+    "link": "https://github.com/innocentmiau/Componentry",
+    "linkLabel": "View on GitHub"
+  },
+  {
+    "date": "2026-09-12",
+    "type": "release",
+    "title": "MiHordeAnimation 0.3.2",
+    "description": "Fixes a body walking indefinitely while playing its idle clip: the locomotion manager caches which clip it believes each body is on, and an attack ends by crossfading into a return clip that manager never chose, so a body that attacked while walking came out on the attack's idle with the cache still saying walk and nothing left that could notice. Adds ForgetClip, which the attack manager calls whenever it plays and which is worth calling alongside any direct one-shot of your own, plus the package meta files 0.3.1 was missing.",
+    "tags": [
+      "Unity",
+      "Crowd AI"
+    ],
+    "link": "https://github.com/innocentmiau/MiHordeAnimation",
+    "linkLabel": "View on GitHub"
+  },
+  {
+    "date": "2026-09-12",
+    "type": "release",
+    "title": "MiHordeAnimation 0.3.0",
+    "description": "Adds the locomotion half the attack manager's own notes said was missing: one manager gives a whole crowd an entrance, an idle, a walk, a run and a death, chosen from how fast each body is actually moving, measured from how far its transform travelled rather than asked of whatever is moving it, so flow field bodies, NavMeshAgent bodies and anything a game moves itself are all driven the same way. Only bodies whose clip should change ever reach the main thread, two throttles bound how often the crowd is looked at and how many clips one check may start, and idle, walk, run and death are lists a body picks one variant from and keeps across all four, so its idle and its walk belong to each other.",
+    "tags": [
+      "Unity",
+      "Crowd AI"
+    ],
+    "link": "https://github.com/innocentmiau/MiHordeAnimation",
+    "linkLabel": "View on GitHub"
+  },
+  {
+    "date": "2026-09-12",
+    "type": "release",
+    "title": "MiHordeTraffic 0.7.1",
+    "description": "Fixes the advisor arguing against the one setting that makes a fine grid affordable, to exactly the people who had just changed it. It claimed congestion walks every cell every frame, which stopped being true when that pass became a sparse active set, and it fired on the cell count alone however small the crowd was, while the report two lines below said three cells tracked; the session report also leaves out the technique comparison when no benchmark ran, rather than opening with four not run lines that read as something having failed, and counts bodies at their peak instead of at quit, where a pooled crowd is mostly asleep and every per body figure came out measured against the one enemy left standing.",
+    "tags": [
+      "Unity",
+      "Crowd AI"
+    ],
+    "link": "https://github.com/innocentmiau/MiHordeTraffic",
+    "linkLabel": "View on GitHub"
+  },
+  {
+    "date": "2026-09-12",
+    "type": "release",
+    "title": "MiHordeTraffic 0.7.0",
+    "description": "Fixes HordeSpawn.TryFind and HordeFlowMovement.TryGetState throwing when called from anywhere but a narrow part of the frame: both read arrays the movement jobs own from Update until LateUpdate, which is where coroutines, events, button callbacks and wave timers all run, and the first body always landed because there was no work in flight yet to collide with, so the second spawn looked like the thing that had broken it. Adds CompletePending for anything reading those arrays itself, and two samples, a flow field crowd and a NavMeshAgent crowd, kept deliberately separate so whichever one is opened is the whole of what that technique costs to set up.",
+    "tags": [
+      "Unity",
+      "Crowd AI"
+    ],
+    "link": "https://github.com/innocentmiau/MiHordeTraffic",
+    "linkLabel": "View on GitHub"
+  },
+  {
+    "date": "2026-09-12",
+    "type": "release",
+    "title": "MiVertexAnimation 1.6.3",
+    "description": "Adds IsPlayingOnce on the animator, whether a one-shot is still running. Anything driving clips in bulk needs it: a crowd manager picking idle, walk or run from how fast a body is moving has no other way to tell that the body is part way through an attack or a death, and without it the gait cuts the one-shot off on the next frame the speed changes.",
+    "tags": [
+      "Unity",
+      "Editor tool"
+    ],
+    "link": "https://github.com/innocentmiau/MiVertexAnimation",
+    "linkLabel": "View on GitHub"
+  },
+  {
+    "date": "2026-09-11",
+    "type": "release",
+    "title": "MiVertexAnimation 1.6.2",
+    "description": "Drops the requirement that a model carry an Animator to be baked, which had rigs getting an empty one added purely to get past the check. What sampling actually needs depends on the clip: a generic clip drives transforms by path and needs only the hierarchy those paths address, while a humanoid clip carries muscle curves retargeted through the rig's Avatar and an Avatar is reached through an Animator, so only the second case asks for the component now, and where one is needed it goes on the throwaway copy the baker was already making rather than onto the model on disk.",
+    "tags": [
+      "Unity",
+      "Editor tool"
+    ],
+    "link": "https://github.com/innocentmiau/MiVertexAnimation",
+    "linkLabel": "View on GitHub"
+  },
+  {
+    "date": "2026-09-11",
+    "type": "release",
+    "title": "MiVertexAnimation 1.6.1",
+    "description": "Fixes the baker window failing on every repaint after the package is updated while it is open. The window carries its state across an assembly reload by serializing it, and updating the package is a reload where the code reading that state is not the code that wrote it, so a list that arrived missing threw inside OnEnable and the console then filled with one GUI error per repaint, all describing the same failure and none of them naming it; the restore drops a snapshot it cannot read now and says so once, and Tools > MiVertexAnimation > Reset Baker Window does the same on demand.",
+    "tags": [
+      "Unity",
+      "Editor tool"
+    ],
+    "link": "https://github.com/innocentmiau/MiVertexAnimation",
+    "linkLabel": "View on GitHub"
+  },
+  {
+    "date": "2026-09-11",
+    "type": "release",
+    "title": "MiVertexAnimation 1.6.0",
+    "description": "Adds clips straight from the project, dropped onto the Animation section or picked with the object field beside it, instead of only the ones read off the target's Animator Controller. Libraries of downloaded animation ship one clip per file, so a character with forty of them meant forty states in a controller that nothing would ever play, wired up purely so the baker could see them, and a model with no Animator at all can be baked now; a clip authored for a different hierarchy is named in the list rather than baked into a row of identical frames, and a model with Mesh LODs is no longer reported as having none, which it was because the level count was the fewest any mesh in the bake carried and a 55 vertex jaw runs out long before an 899 vertex body.",
+    "tags": [
+      "Unity",
+      "Editor tool"
+    ],
+    "link": "https://github.com/innocentmiau/MiVertexAnimation",
+    "linkLabel": "View on GitHub"
+  },
+  {
+    "date": "2026-09-10",
+    "type": "release",
+    "title": "MiHordeTraffic 0.6.0",
+    "description": "Adds HordeTarget, which gives a goal a shape of POINT, BOX or SPHERE with its size read from a Collider, so the expansion seeds every walkable cell the shape covers rather than the single cell nearest its centre and a crowd arrives at the nearest part of a building and surrounds it instead of funnelling onto one face. Fixes obstacles never applying at all on a large grid, where a block request waited for a frame with no expansion in flight and a million cell grid never has one, so a building switched off never came back for the rest of the session; bodies with no route to the goal hold position now rather than walking at it, since a straight line at the goal is not a route and the reason there is no route is usually something solid on exactly that bearing.",
+    "tags": [
+      "Unity",
+      "Crowd AI"
+    ],
+    "link": "https://github.com/innocentmiau/MiHordeTraffic",
+    "linkLabel": "View on GitHub"
+  },
+  {
+    "date": "2026-09-10",
+    "type": "release",
+    "title": "MiHordeTraffic 0.5.0",
+    "description": "Adds gates. An obstacle is SOLID or GATE, and a gate stays walkable so the expansion still reaches through it at a great price while the mover refuses the step, which is what leads a crowd to a shut door and holds them queueing there instead of pressing them against whatever lies between, as likely to be a mountain as the door; height is part of what a step costs now, since the bake had sampled a height per cell from the beginning and nothing had ever read it, with a Maximum Slope above which two cells stop being connected at all, and separation's frame counting interval becomes Updates Per Second so one asset gives the same crowd at sixty frames and at two hundred.",
+    "tags": [
+      "Unity",
+      "Crowd AI"
+    ],
+    "link": "https://github.com/innocentmiau/MiHordeTraffic",
+    "linkLabel": "View on GitHub"
+  },
+  {
+    "date": "2026-09-10",
+    "type": "release",
+    "title": "MiHordeTraffic 0.4.0",
+    "description": "Fixes the grid inventing walkable ground around everything solid in the level, and bodies standing inside walls on it: the bake asks the navmesh for the nearest surface to each cell centre and that call answers however far away it has to look, so a cell centre buried in a wall found the navmesh at the wall's foot and was accepted. Adds Sample Accuracy on the driver for how closely a cell has to sit on the navmesh to be baked as walkable, and fixes the field pulling bodies into walls once a route filled up, where an uphill neighbour on one side and a wall on the other read as the wall being the cheaper way.",
+    "tags": [
+      "Unity",
+      "Crowd AI"
+    ],
+    "link": "https://github.com/innocentmiau/MiHordeTraffic",
+    "linkLabel": "View on GitHub"
+  },
+  {
+    "date": "2026-09-10",
+    "type": "release",
+    "title": "MiHordeTraffic 0.3.0",
+    "description": "Moves the field expansion off the main thread. It is scheduled, runs across however many frames it needs and is promoted when it finishes, so a million cell grid stops being a hitch every rebuild interval and the crowd reads the previous field while the next one is built; the congestion pass now walks the cells the crowd is standing in rather than the whole map, which was fifteen million memory bound operations a frame on a kilometre at one metre, and the per cell direction array is gone, a million entries written every expansion of which a crowd of five thousand ever read five thousand. Adds HordeObstacle and HordeMovingObstacle, which take the ground under them out of the grid and give it back with no re-bake, and HordeSpawn.TryFind, which answers where a body can actually be put down.",
+    "tags": [
+      "Unity",
+      "Crowd AI"
+    ],
+    "link": "https://github.com/innocentmiau/MiHordeTraffic",
+    "linkLabel": "View on GitHub"
+  },
+  {
+    "date": "2026-09-10",
+    "type": "release",
+    "title": "MiHordeAnimation 0.2.0",
+    "description": "Fixes attack range being measured from the target's centre, so a crowd pressed against the wall of a large target stood half its width out of range and never swung. It is measured from the nearest part of the target now, taking the shape from HordeTarget where there is one and from the driver directly when this is chasing the same target the crowd is; a target with no shape is a point, exactly as before.",
+    "tags": [
+      "Unity",
+      "Crowd AI"
+    ],
+    "link": "https://github.com/innocentmiau/MiHordeAnimation",
+    "linkLabel": "View on GitHub"
+  },
+  {
+    "date": "2026-09-04",
+    "type": "release",
+    "title": "MiVertexAnimation 1.5.0",
+    "description": "Adds a name of your own for every baked clip, so a Play call can say Attack where the FBX exported Combat_Walk_1H_Attack. Renaming the clip on the importer was the only way to shorten that before and it changes the name for every other user of the file, while this is stored on the clip's range and survives a re-bake, an undo and a settings asset saved and loaded again; the baked clip set gets an inspector of its own for fixing a name without re-baking a texture to change a string, and both it and the baker warn when two clips would bake under the same name, since Play matches the first slice of a name and the second could only ever be reached by its index.",
+    "tags": [
+      "Unity",
+      "Editor tool"
+    ],
+    "link": "https://github.com/innocentmiau/MiVertexAnimation",
+    "linkLabel": "View on GitHub"
+  },
+  {
+    "date": "2026-09-04",
+    "type": "release",
+    "title": "Multi-Platform Builder 1.10.0",
+    "description": "Adds the text of every error and warning Unity logged to the build report, on a tab of its own with Errors Only and Copy Log beside it. This is what a failed build was missing: every platform switch reloads the domain and Unity clears the console with it, so with Switch Platform Per Build on the errors that explain a failure were wiped by the switch to the next platform and the report only ever kept the count, which left building that platform again by hand without the package as the only way to find out what broke.",
+    "tags": [
+      "Unity",
+      "Build automation"
+    ],
+    "link": "https://github.com/innocentmiau/MultiPlatformBuilder",
+    "linkLabel": "View on GitHub"
+  },
+  {
     "date": "2026-09-03",
     "type": "release",
     "title": "MiHordeAnimation 0.1.0",
@@ -107,7 +299,7 @@
     "link": "https://innocentmiau.itch.io/deadweight",
     "linkLabel": "Play on itch.io"
   },
-    {
+  {
     "date": "2026-08-24",
     "type": "release",
     "title": "MiPackages",
@@ -196,7 +388,10 @@
     "type": "release",
     "title": "Multi-Platform Builder 1.9.2",
     "description": "Adds Android and WebGL to the platform list, with optional per-build platform switching so scripting symbols resolve correctly. Build reports now compare against previous builds and drill down by folder.",
-    "tags": ["Unity", "Build automation"],
+    "tags": [
+      "Unity",
+      "Build automation"
+    ],
     "link": "https://github.com/innocentmiau/MultiPlatformBuilder",
     "linkLabel": "View on GitHub"
   },
